@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    gatling group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
+    gatling group: 'org.postgresql', name: 'postgresql', version: '42.7.1'
     gatling 'org.projectlombok:lombok:1.18.30'
     gatlingAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
