@@ -14,6 +14,7 @@ public class Util {
     public static final Map<String, String> PASSWORD_MAP;
 
     public static final List<String> OWNER_LIST;
+    public static final FeederBuilder<?> DEFERAL_CODE_FEEDER;
 
     static {
         COMMON_HEADERS = Map.of(
@@ -32,18 +33,22 @@ public class Util {
         PASSWORD_MAP = Map.of(
             "5BAA61E4C9B93F3F", "password"
         );
+        //OWNER_LIST = List.of("400","415");
 
         OWNER_LIST = Util.jdbcFeeder("select distinct owner from juror_mod.court_location")
             .readRecords()
             .stream()
             .map(record -> String.valueOf(record.get("owner")))
             .toList();
+
+        DEFERAL_CODE_FEEDER = Util.jdbcFeeder("select exc_code from juror_mod.t_exc_code");
     }
 
     public static CheckBuilder.Final saveCsrf() {
         return css("input[name='_csrf']", "value").saveAs("csrf");
     }
 
+    //TODO fix this
     public static CheckBuilder.Final saveSessionId() {
         return css("input[name='_csrf']", "value").saveAs("sessionId");
     }
@@ -51,6 +56,9 @@ public class Util {
 
     public static CheckBuilder.Final validatePageIdentifier(String pageIdentifier) {
         return css("meta[name='pageIdentifier']", "content").is(pageIdentifier);
+    }
+    public static CheckBuilder.Final validateHeading(String headingValue) {
+        return css("h1.govuk-heading-l").is(headingValue);
     }
 
     public static FeederBuilder<Object> jdbcFeeder(String sql) {

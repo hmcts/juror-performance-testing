@@ -24,19 +24,20 @@ public class LoginScenario {
         group(GROUP_NAME)
             .on(
                 exec(
-                    http("Get Login Screen")
+                    http("GET - Login Screen")
                         .get(LOGIN_URL)
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.validatePageIdentifier("sign in"))
                         .check(Util.saveCsrf())
-                ));
+                ).exitHereIfFailed()
+            );
 
     public static final ChainBuilder POST_LOGIN_COURT =
         group(GROUP_NAME)
             .on(
                 feed(COURT_USER_FEEDER)
                     .exec(
-                        http("Post Login (Court)")
+                        http("POST - Login (Court)")
                             .post(LOGIN_URL)
                             .headers(Util.COMMON_HEADERS)
                             .formParam("userID", "#{username}")
@@ -44,13 +45,14 @@ public class LoginScenario {
                             .formParam("_csrf", "#{csrf}")
                             .check(Util.validatePageIdentifier("Homepage"))
                             .check(Util.saveSessionId())
-                    ));
+                    ).exitHereIfFailed()
+            );
     public static final ChainBuilder POST_LOGIN_BUREAU =
         group(GROUP_NAME)
             .on(
                 feed(BUREAU_USER_FEEDER)
                     .exec(
-                        http("Post Login (Bureau)")
+                        http("POST - Login (Bureau)")
                             .post(LOGIN_URL)
                             .headers(Util.COMMON_HEADERS)
                             .formParam("userID", "#{username}")
@@ -58,7 +60,8 @@ public class LoginScenario {
                             .formParam("_csrf", "#{csrf}")
                             .check(Util.validatePageIdentifier("your work - to do"))
                             .check(Util.saveSessionId())
-                    ));
+                    ).exitHereIfFailed()
+            );
 
     public static final ChainBuilder LOGIN_AS_COURT = exec(GET_LOGIN_SCREEN, POST_LOGIN_COURT);
     public static final ChainBuilder LOGIN_AS_BUREAU = exec(GET_LOGIN_SCREEN, POST_LOGIN_BUREAU);

@@ -18,10 +18,13 @@ gatling {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
+    mavenLocal()
 }
 
 dependencies {
     gatling group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
     gatling 'org.projectlombok:lombok:1.18.30'
     gatlingAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    gatling 'com.github.hmcts:juror-generation-support-library:1.2.0'
 }
