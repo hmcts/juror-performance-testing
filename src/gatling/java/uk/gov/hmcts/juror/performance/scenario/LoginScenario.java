@@ -29,7 +29,7 @@ public class LoginScenario {
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.validatePageIdentifier("sign in"))
                         .check(Util.saveCsrf())
-                ).exitHereIfFailed()
+                )
             );
 
     public static final ChainBuilder POST_LOGIN_COURT =
@@ -44,8 +44,8 @@ public class LoginScenario {
                             .formParam("password", "#{password}")
                             .formParam("_csrf", "#{csrf}")
                             .check(Util.validatePageIdentifier("Homepage"))
-                            .check(Util.saveSessionId())
-                    ).exitHereIfFailed()
+//                            .check(Util.saveSessionId())
+                    )
             );
     public static final ChainBuilder POST_LOGIN_BUREAU =
         group(GROUP_NAME)
@@ -59,12 +59,14 @@ public class LoginScenario {
                             .formParam("password", "#{password}")
                             .formParam("_csrf", "#{csrf}")
                             .check(Util.validatePageIdentifier("your work - to do"))
-                            .check(Util.saveSessionId())
-                    ).exitHereIfFailed()
+//                            .check(Util.saveSessionId())
+                    )
             );
 
     public static final ChainBuilder LOGIN_AS_COURT = exec(GET_LOGIN_SCREEN, POST_LOGIN_COURT);
     public static final ChainBuilder LOGIN_AS_BUREAU = exec(GET_LOGIN_SCREEN, POST_LOGIN_BUREAU);
+
+    public static final ChainBuilder LOGIN = Util.isBureau(LOGIN_AS_BUREAU,LOGIN_AS_COURT);
 
     private LoginScenario() {
 

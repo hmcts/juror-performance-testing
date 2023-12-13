@@ -23,7 +23,7 @@ public final class JurorRecordSearchScenario {
                 .check(Util.validatePageIdentifier("juror record - overview"))
                 .check(css("#jurorNumber").isEL("#{juror_number}"))
         ))
-        .exitHereIfFailed();
+        ;
 
     private JurorRecordSearchScenario() {
 

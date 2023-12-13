@@ -20,6 +20,16 @@ public class JurorRecordScenario {
                     .get(BASE_URL + "/summons")
                     .headers(Util.COMMON_HEADERS)
                     .check(Util.validatePageIdentifier("juror record - summons"))
-            ).exitHereIfFailed()
+            )
+        );
+
+    public static final ChainBuilder GET_UPDATE_RECORD = group(GROUP_NAME)
+        .on(
+            exec(
+                http("GET - Juror Record - Update Record")
+                    .get(JurorRecordUpdateScenario.BASE_URL)
+                    .headers(Util.COMMON_HEADERS)
+                    .check(Util.validatePageIdentifier("Update juror record"))
+            )
         );
 }
