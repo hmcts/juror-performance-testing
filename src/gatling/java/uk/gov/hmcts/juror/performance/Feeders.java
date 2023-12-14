@@ -49,8 +49,11 @@ public class Feeders {
 
         JUROR_NUMBER_FEEDER_BUREAU = Util.jdbcFeeder("select juror_number from juror_mod.juror_pool where owner = "
             + "'400'");
-        DEFERAL_CODE_FEEDER = Util.jdbcFeeder("select exc_code from juror_mod.t_exc_code").random();
-        EXCUSAL_CODE_FEEDER = DEFERAL_CODE_FEEDER;
+        DEFERAL_CODE_FEEDER = Util.listFeeder("exc_code", List.of(
+                'A', 'B', 'C', 'F', 'G', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S', 'T', 'W', 'X', 'Y', 'Z'))
+            .random();
+        EXCUSAL_CODE_FEEDER = Util.listFeeder(Util.jdbcFeeder("select exc_code from juror_mod"
+            + ".t_exc_code").readRecords()).random();
 
         JUROR_NUMBER_MATCHING_OWNER_FEEDER = doSwitch("#{owner}")
             .on(Feeders.JUROR_NUMBER_BY_OWNER_FEEDER_CHOICE);
@@ -64,12 +67,13 @@ public class Feeders {
     }
 
     private static FeederBuilder<Object> createJurorNumberFeederByStatus(int status) {
-        return Util.jdbcFeeder("select j.juror_number, jp.owner, jr.reply_type from juror_mod.juror_pool jp  "
+        return Util.jdbcFeeder("select j.juror_number, jp.owner, LOWER(jr.reply_type) as reply_type from juror_mod"
+            + ".juror_pool jp  "
             + "join juror_mod.juror j on "
             + "j.juror_number = jp.juror_number "
             + "join juror_mod.juror_response jr on "
             + "jr.juror_number = jp.juror_number "
             + "where jp.status = " + status
-            + " and jp.owner = '400'");
+            + " and jp.owner = '400'").random();//TODO remove bureau owner filter
     }
 }

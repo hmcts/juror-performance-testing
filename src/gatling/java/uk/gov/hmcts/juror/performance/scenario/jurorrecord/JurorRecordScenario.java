@@ -7,29 +7,36 @@ import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
-public class JurorRecordScenario {
+public final class JurorRecordScenario {
     private static final String GROUP_NAME = "Juror Record";
 
     private static final String BASE_URL = "/juror-management/record/#{juror_number}";
 
+    private JurorRecordScenario() {
 
-    public static final ChainBuilder GET_SUMMONS = group(GROUP_NAME)
-        .on(
-            exec(
-                http("GET - Juror Record - Summons")
-                    .get(BASE_URL + "/summons")
-                    .headers(Util.COMMON_HEADERS)
-                    .check(Util.validatePageIdentifier("juror record - summons"))
-            )
-        );
+    }
 
-    public static final ChainBuilder GET_UPDATE_RECORD = group(GROUP_NAME)
-        .on(
-            exec(
-                http("GET - Juror Record - Update Record")
-                    .get(JurorRecordUpdateScenario.BASE_URL)
-                    .headers(Util.COMMON_HEADERS)
-                    .check(Util.validatePageIdentifier("Update juror record"))
-            )
-        );
+    public static ChainBuilder getSummons() {
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Summons")
+            .on(
+                exec(
+                    http("GET - Juror Record - Summons")
+                        .get(BASE_URL + "/summons")
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.validatePageIdentifier("juror record - summons"))
+                )
+            );
+    }
+
+    public static ChainBuilder getUpdateRecord() {
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Update Record")
+            .on(
+                exec(
+                    http("GET - Juror Record - Update Record")
+                        .get(JurorRecordUpdateScenario.BASE_URL)
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.validatePageIdentifier("Update juror record"))
+                )
+            );
+    }
 }

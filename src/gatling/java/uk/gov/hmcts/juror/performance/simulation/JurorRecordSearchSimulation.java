@@ -14,9 +14,9 @@ public class JurorRecordSearchSimulation extends AbstractJurorSimulation {
     @Override
     protected ScenarioBuilder getScenario() {
         return scenario("Juror Record Search")
-            .exec(LoginScenario.LOGIN_AS_COURT,
+            .exec(LoginScenario.loginAsCourt(),
                 Feeders.JUROR_NUMBER_MATCHING_OWNER_FEEDER,
-                JurorRecordSearchScenario.JUROR_RECORD_SEARCH
+                JurorRecordSearchScenario.jurorRecordSearch()
             );
     }
 }

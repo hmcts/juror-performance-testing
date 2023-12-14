@@ -11,21 +11,22 @@ import static io.gatling.javaapi.http.HttpDsl.http;
 public final class JurorRecordSearchScenario {
     private static final String GROUP_NAME = "Juror Record Search";
 
-
-    public static final ChainBuilder JUROR_RECORD_SEARCH = group(GROUP_NAME)
-        .on(exec(
-            http("POST - Juror Number Search")
-                .post("/juror-record/search")
-                .headers(Util.COMMON_HEADERS)
-                .check(Util.saveCsrf())
-                .formParam("super-nav-search", "#{juror_number}")
-                .formParam("_csrf", "#{csrf}")
-                .check(Util.validatePageIdentifier("juror record - overview"))
-                .check(css("#jurorNumber").isEL("#{juror_number}"))
-        ))
-        ;
-
     private JurorRecordSearchScenario() {
 
+    }
+
+    public static ChainBuilder jurorRecordSearch() {
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Juror Number Search")
+            .on(exec(
+                    http("POST - Juror Number Search")
+                        .post("/juror-record/search")
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.saveCsrf())
+                        .formParam("super-nav-search", "#{juror_number}")
+                        .formParam("_csrf", "#{csrf}")
+                        .check(Util.validatePageIdentifier("juror record - overview"))
+                        .check(css("#jurorNumber").isEL("#{juror_number}"))
+                )
+            );
     }
 }

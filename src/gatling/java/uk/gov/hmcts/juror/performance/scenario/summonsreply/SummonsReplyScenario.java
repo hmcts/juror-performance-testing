@@ -7,17 +7,23 @@ import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
-public class SummonsReplyScenario {
+public final class SummonsReplyScenario {
 
     private static final String GROUP_NAME = "Summons Reply - #{reply_type}";
-    public static final String BASE_URL = "/summons-replies/response/#{juror_number}/paper";
-//    public static final String BASE_URL = "/summons-replies/response/#{juror_number}/#{reply_type}";
+    public static final String BASE_URL = "/summons-replies/response/#{juror_number}/#{reply_type}";
 
-    public static ChainBuilder GET_PROCESS_REPLY = group(GROUP_NAME)
-        .on(exec(
-            http("GET - Summons Reply - Process Reply")
-                .get(BASE_URL + "/process")
-                .headers(Util.COMMON_HEADERS)
-                .check(Util.validatePageIdentifier("process - what to do"))
-        ));
+    private SummonsReplyScenario() {
+
+    }
+
+    public static ChainBuilder getProcessReply() {
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Process Reply")
+            .on(exec(
+                    http("GET - Summons Reply - Process Reply")
+                        .get(BASE_URL + "/process")
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.validatePageIdentifier("process - what to do"))
+                )
+            );
+    }
 }

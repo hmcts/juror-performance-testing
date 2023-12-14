@@ -4,6 +4,7 @@ import io.gatling.javaapi.core.OpenInjectionStep;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.juror.performance.Config;
 
 import java.time.Duration;
@@ -12,17 +13,16 @@ import java.util.List;
 import static io.gatling.javaapi.core.CoreDsl.atOnceUsers;
 import static io.gatling.javaapi.core.CoreDsl.constantUsersPerSec;
 import static io.gatling.javaapi.core.CoreDsl.global;
-import static io.gatling.javaapi.core.CoreDsl.holdFor;
 import static io.gatling.javaapi.core.CoreDsl.rampUsers;
 import static io.gatling.javaapi.core.CoreDsl.rampUsersPerSec;
-import static io.gatling.javaapi.core.CoreDsl.reachRps;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
+@Slf4j
 public abstract class AbstractJurorSimulation extends Simulation {
     private final HttpProtocolBuilder httpProtocol;
 
 
-    public AbstractJurorSimulation() {
+    protected AbstractJurorSimulation() {
         this.httpProtocol = http
             .baseUrl(Config.BASE_URL)
             .doNotTrackHeader("1")
@@ -34,26 +34,19 @@ public abstract class AbstractJurorSimulation extends Simulation {
     @Override
     public void before() {
         super.before();
-        System.out.println(Config.asString());
+        log.info(Config.asString());
     }
 
     public void setup() {
         setUp(
             getScenario()
                 .injectOpen(simulationProfile().toArray(new OpenInjectionStep[0]))
-//                .throttle(
-//                    reachRps(Config.REQUESTS_PER_SECOND).in(
-//                        Duration.ofSeconds(Config.RANK_UP_TIME_SECONDS)
-//                    ),
-//                    holdFor(Duration.ofSeconds(Config.TEST_DURATION_SECONDS)),
-//                    reachRps(0).in(Duration.ofSeconds(Config.RANK_DOWN_TIME_SECONDS))
-//                )
         ).protocols(httpProtocol)
             .assertions(
                 //No failed requests
                 global().failedRequests().count().is(0L),
-                //95% of requests should be below respond within 500ms
-                global().responseTime().percentile3().lt(500)
+                //95% of requests should respond within 500ms
+                global().responseTime().percentile3().lte(500)
             );
     }
 
