@@ -24,7 +24,6 @@ import static io.gatling.javaapi.core.CoreDsl.scenario;
 public class SummonsManagementDeferralSimulation extends AbstractJurorSimulation {
     @Override
     protected ScenarioBuilder getScenario() {
-        Util.resetCounter();
         return scenario("Juror Record update - deferral")
             .exitBlockOnFail(exec(
                 randomSwitchOrElse().on(

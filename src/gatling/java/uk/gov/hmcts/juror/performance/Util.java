@@ -11,6 +11,7 @@ import uk.gov.hmcts.juror.support.generation.generators.value.LocalDateGenerator
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,7 +26,6 @@ public class Util {
     private static final AtomicInteger COUNTER;
     public static final Map<String, String> COMMON_HEADERS;
     public static final Map<String, String> PASSWORD_MAP;
-
     public static final List<String> OWNER_LIST;
 
     private static final LocalDateGeneratorImpl LOCAL_DATE_GENERATOR = new LocalDateGeneratorImpl(
@@ -51,13 +51,11 @@ public class Util {
         PASSWORD_MAP = Map.of(
             "5BAA61E4C9B93F3F", "password"
         );
-        OWNER_LIST = List.of("400", "415");
-
-//TODO uncomment        OWNER_LIST = Util.jdbcFeeder("select distinct owner from juror_mod.court_location")
-//            .readRecords()
-//            .stream()
-//            .map(record -> String.valueOf(record.get("owner")))
-//            .toList();
+        OWNER_LIST = Util.jdbcFeeder("select distinct owner from juror_mod.juror_pool")
+            .readRecords()
+            .stream()
+            .map(stringObjectMap -> String.valueOf(stringObjectMap.get("owner")))
+            .toList();
     }
 
     public static CheckBuilder.Final saveCsrf() {
@@ -86,7 +84,8 @@ public class Util {
             .map(item -> Map.of(key, item)).toList()
         );
     }
-    public static FeederBuilder<Object> listFeeder(List<Map<String,Object>> items) {
+
+    public static FeederBuilder<Object> listFeeder(List<Map<String, Object>> items) {
         return CoreDsl.listFeeder(items);
     }
 

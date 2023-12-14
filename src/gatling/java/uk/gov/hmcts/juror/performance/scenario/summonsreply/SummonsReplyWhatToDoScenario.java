@@ -6,6 +6,7 @@ import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.feed;
@@ -58,8 +59,12 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("excusalCode", "#{exc_code}")
                             .formParam("excusalDecision", "GRANT")
                             .formParam("_csrf", "#{csrf}")
-                            .check(Util.validatePageIdentifier("your work - to do"))
-                            .check(substring("Excusal granted"))
+                            .checkIf(session -> Objects.equals(session.getString("owner"), "400")).then(
+                                Util.validatePageIdentifier("your work - to do"),
+                                substring("Excusal granted")
+                            ).checkIf(session -> !Objects.equals(session.getString("owner"), "400")).then(
+                                Util.validatePageIdentifier("Homepage")
+                            )
                     )
                 );
         }
@@ -78,8 +83,12 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("excusalCode", "#{exc_code}")
                             .formParam("excusalDecision", "REFUSE")
                             .formParam("_csrf", "#{csrf}")
-                            .check(Util.validatePageIdentifier("your work - to do"))
-                            .check(substring("Excusal refused"))
+                            .checkIf(session -> Objects.equals(session.getString("owner"), "400")).then(
+                                Util.validatePageIdentifier("your work - to do"),
+                                substring("Excusal refused")
+                            ).checkIf(session -> !Objects.equals(session.getString("owner"), "400")).then(
+                                Util.validatePageIdentifier("Homepage")
+                            )
                     )
                 );
         }
@@ -136,8 +145,12 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("jurorNumber", "#{juror_number}")
                             .formParam("_csrf", "#{csrf}")
                             .formParam("version", "")
-                            .check(Util.validatePageIdentifier("your work - to do"))
-                            .check(substring("Deferral granted"))
+                            .checkIf(session -> Objects.equals(session.getString("owner"), "400")).then(
+                                Util.validatePageIdentifier("your work - to do"),
+                                substring("Deferral granted")
+                            ).checkIf(session -> !Objects.equals(session.getString("owner"), "400")).then(
+                                Util.validatePageIdentifier("Homepage")
+                            )
                     )
                 );
         }

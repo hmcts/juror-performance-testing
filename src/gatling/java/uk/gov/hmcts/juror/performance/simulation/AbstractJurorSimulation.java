@@ -6,6 +6,7 @@ import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.juror.performance.Config;
+import uk.gov.hmcts.juror.performance.Util;
 
 import java.time.Duration;
 import java.util.List;
@@ -37,9 +38,14 @@ public abstract class AbstractJurorSimulation extends Simulation {
         log.info(Config.asString());
     }
 
+    private ScenarioBuilder getScenarioBuilder() {
+        Util.resetCounter();
+        return getScenario();
+    }
+
     public void setup() {
         setUp(
-            getScenario()
+            getScenarioBuilder()
                 .injectOpen(simulationProfile().toArray(new OpenInjectionStep[0]))
         ).protocols(httpProtocol)
             .assertions(

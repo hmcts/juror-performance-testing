@@ -1,5 +1,6 @@
 cd ../
-./gradlew gatlingRun-uk.gov.hmcts.juror.performance.simulation.summonsreply.SummonsManagementExcusalSimulation \
+#./gradlew gatlingRun-uk.gov.hmcts.juror.performance.simulation.summonsreply.SummonsManagementExcusalSimulation \
+./gradlew gatlingRun-uk.gov.hmcts.juror.performance.simulation.JurorRecordSearchSimulation \
 -DBASE_URL="http://0.0.0.0:3000" \
 -DTEST_TYPE="PERFORMANCE" \
 -DENVIRONMENT="PERFORMANCE" \

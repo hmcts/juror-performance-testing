@@ -26,7 +26,6 @@ public class SummonsManagementExcusalSimulation extends AbstractJurorSimulation 
 
     @Override
     protected ScenarioBuilder getScenario() {
-        Util.resetCounter();
         //TODO random number feeder
         return scenario("Juror Record update - Excusal")
             .exitBlockOnFail(exec(

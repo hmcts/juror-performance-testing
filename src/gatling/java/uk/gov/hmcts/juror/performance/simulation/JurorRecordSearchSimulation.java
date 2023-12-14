@@ -3,6 +3,7 @@ package uk.gov.hmcts.juror.performance.simulation;
 
 import io.gatling.javaapi.core.ScenarioBuilder;
 import uk.gov.hmcts.juror.performance.Feeders;
+import uk.gov.hmcts.juror.performance.Util;
 import uk.gov.hmcts.juror.performance.scenario.JurorRecordSearchScenario;
 import uk.gov.hmcts.juror.performance.scenario.LoginScenario;
 
@@ -14,8 +15,8 @@ public class JurorRecordSearchSimulation extends AbstractJurorSimulation {
     @Override
     protected ScenarioBuilder getScenario() {
         return scenario("Juror Record Search")
-            .exec(LoginScenario.loginAsCourt(),
-                Feeders.JUROR_NUMBER_MATCHING_OWNER_FEEDER,
+            .feed(Feeders.JUROR_NUMBER_FEEDER)
+            .exec(LoginScenario.login(),
                 JurorRecordSearchScenario.jurorRecordSearch()
             );
     }
