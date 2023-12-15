@@ -2,6 +2,8 @@ package uk.gov.hmcts.juror.performance;
 
 import lombok.SneakyThrows;
 
+import java.util.Optional;
+
 public class Config {
     public static final String BASE_URL;
     public static final TestType TEST_TYPE;
@@ -19,44 +21,54 @@ public class Config {
     private static final double REQUESTS_PER_SECOND_PER_USER;
 
     static {
-        BASE_URL =
-            System.getProperty("TEST_URL", "http://0.0.0.0:3000");
+        BASE_URL = getProperty("TEST_URL", "http://0.0.0.0:3000");
         TEST_TYPE =
-            TestType.valueOf(System.getProperty("TEST_URL", TestType.PERFORMANCE.name()));
+            TestType.valueOf(getProperty("TEST_URL", TestType.PERFORMANCE.name()));
         DEBUG =
-            Boolean.parseBoolean(System.getProperty("DEBUG", "false"));
-        ENVIRONMENT = System.getProperty("ENVIRONMENT", TEST_TYPE.name());
+            Boolean.parseBoolean(getProperty("DEBUG", "false"));
+        ENVIRONMENT = getProperty("ENVIRONMENT", TEST_TYPE.name());
 
-        DB_URL = System.getProperty("DB_URL", "jdbc:postgresql://localhost:5432/juror");
-        DB_USERNAME = System.getProperty("DB_USERNAME", "system");
-        DB_PASSWORD = System.getProperty("DB_PASSWORD", "postgres");
+        DB_URL = getProperty("DB_URL", "jdbc:postgresql://localhost:5432/juror");
+        DB_USERNAME = getProperty("DB_USERNAME", "system");
+        DB_PASSWORD = getProperty("DB_PASSWORD", "postgres");
 
 
-        RANK_UP_TIME_SECONDS = Long.parseLong(System.getProperty("RANK_UP_TIME_SECONDS", "120"));
-        RANK_DOWN_TIME_SECONDS = Long.parseLong(System.getProperty("RANK_DOWN_TIME_SECONDS", "120"));
-        TEST_DURATION_SECONDS = Long.parseLong(System.getProperty("TEST_DURATION_SECONDS", "600"));
-        PIPELINE_USERS_PER_SECOND = Integer.parseInt(System.getProperty("PIPELINE_USERS_PER_SECOND", "10"));
+        RANK_UP_TIME_SECONDS = Long.parseLong(getProperty("RANK_UP_TIME_SECONDS", "120"));
+        RANK_DOWN_TIME_SECONDS = Long.parseLong(getProperty("RANK_DOWN_TIME_SECONDS", "120"));
+        TEST_DURATION_SECONDS = Long.parseLong(getProperty("TEST_DURATION_SECONDS", "600"));
+        PIPELINE_USERS_PER_SECOND = Integer.parseInt(getProperty("PIPELINE_USERS_PER_SECOND", "10"));
 
-        if (System.getProperty("USERS_PER_HOUR") != null) {
-            USERS_PER_SECOND = Integer.parseInt((Double.parseDouble(System.getProperty("USERS_PER_HOUR")) / 3600.0) + "");
+        if (hasProperty("USERS_PER_HOUR")) {
+            USERS_PER_SECOND = Integer.parseInt((Double.parseDouble(getProperty("USERS_PER_HOUR", "3600")) / 3600.0) +
+                "");
         } else {
-            USERS_PER_SECOND = Integer.parseInt(System.getProperty("USERS_PER_SECOND", "1"));
+            USERS_PER_SECOND = Integer.parseInt(getProperty("USERS_PER_SECOND", "1"));
         }
-        if (System.getProperty("REQUESTS_PER_HOUR_PER_USER") != null) {
+        if (hasProperty("REQUESTS_PER_HOUR_PER_USER")) {
             REQUESTS_PER_SECOND_PER_USER =
-                Double.parseDouble(System.getProperty("REQUESTS_PER_HOUR_PER_USER")) / 3600.0;
+                Double.parseDouble(getProperty("REQUESTS_PER_HOUR_PER_USER","3600")) / 3600.0;
         } else {
-            REQUESTS_PER_SECOND_PER_USER = Double.parseDouble(System.getProperty("REQUESTS_PER_SECOND_PER_USER", "1"));
+            REQUESTS_PER_SECOND_PER_USER = Double.parseDouble(getProperty("REQUESTS_PER_SECOND_PER_USER", "1"));
         }
         REQUESTS_PER_SECOND = Math.max(1, (int) (REQUESTS_PER_SECOND_PER_USER * USERS_PER_SECOND));
+    }
+
+    private static boolean hasProperty(String name) {
+        return System.getProperty(name) != null || System.getenv(name) != null;
+    }
+
+    private static String getProperty(String name, String defaultValue) {
+        String value = System.getProperty(name);
+        if (value != null) {
+            return value;
+        }
+        return Optional.ofNullable(System.getenv(name)).orElse(defaultValue);
     }
 
 
     @SneakyThrows
     public static String asString() {
         StringBuilder builder = new StringBuilder();
-
-//        addValueToBuilder(builder, "Base Url", BASE_URL);
         addValueToBuilder(builder, "Test Type", TEST_TYPE.name());
         addValueToBuilder(builder, "Debug", String.valueOf(DEBUG));
         addValueToBuilder(builder, "Rank Up Time Seconds", String.valueOf(RANK_UP_TIME_SECONDS));
@@ -64,11 +76,6 @@ public class Config {
         addValueToBuilder(builder, "Rank Down Time Seconds", String.valueOf(RANK_DOWN_TIME_SECONDS));
         addValueToBuilder(builder, "Users Per Second", String.valueOf(USERS_PER_SECOND));
         addValueToBuilder(builder, "Pipeline Users Per Second", String.valueOf(PIPELINE_USERS_PER_SECOND));
-//        addValueToBuilder(builder, "Environment", ENVIRONMENT);
-//        addValueToBuilder(builder, "DB URL", DB_URL);
-//        addValueToBuilder(builder, "DB Username", DB_USERNAME);
-//        addValueToBuilder(builder, "DB Password", DB_PASSWORD);
-
         return builder.toString();
     }
 
