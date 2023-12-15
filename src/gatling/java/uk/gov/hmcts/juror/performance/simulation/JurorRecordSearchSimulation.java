@@ -9,7 +9,6 @@ import uk.gov.hmcts.juror.performance.scenario.LoginScenario;
 
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 
-//https://centralgovernmentcgi.atlassian.net/browse/JM-5309
 public class JurorRecordSearchSimulation extends AbstractJurorSimulation {
 
     @Override

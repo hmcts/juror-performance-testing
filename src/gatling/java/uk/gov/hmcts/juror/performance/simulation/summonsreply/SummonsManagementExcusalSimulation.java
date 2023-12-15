@@ -21,7 +21,6 @@ import static io.gatling.javaapi.core.CoreDsl.randomSwitch;
 import static io.gatling.javaapi.core.CoreDsl.randomSwitchOrElse;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 
-//https://centralgovernmentcgi.atlassian.net/browse/JM-5312
 public class SummonsManagementExcusalSimulation extends AbstractJurorSimulation {
 
     @Override

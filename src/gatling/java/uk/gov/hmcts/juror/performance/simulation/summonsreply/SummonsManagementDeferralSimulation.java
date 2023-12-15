@@ -20,7 +20,6 @@ import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.core.CoreDsl.randomSwitchOrElse;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 
-//https://centralgovernmentcgi.atlassian.net/browse/JM-5312
 public class SummonsManagementDeferralSimulation extends AbstractJurorSimulation {
     @Override
     protected ScenarioBuilder getScenario() {
