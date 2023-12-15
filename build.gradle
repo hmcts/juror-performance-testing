@@ -18,10 +18,17 @@ gatling {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
+    mavenLocal()
 }
 
 dependencies {
     gatling group: 'org.postgresql', name: 'postgresql', version: '42.7.1'
     gatling 'org.projectlombok:lombok:1.18.30'
     gatlingAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    gatling 'com.github.hmcts:juror-generation-support-library:1.2.0'
+
+    gatling group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.5'
+    gatling group: 'ch.qos.logback', name: 'logback-core', version: '1.3.5'
+    gatling group: 'org.slf4j', name: 'slf4j-api', version: '2.0.4'
 }

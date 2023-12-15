@@ -11,7 +11,7 @@ public class Config {
     public static final long RANK_UP_TIME_SECONDS;
     public static final long TEST_DURATION_SECONDS;
     public static final long RANK_DOWN_TIME_SECONDS;
-    public static final double USERS_PER_SECOND;
+    public static final int USERS_PER_SECOND;
     public static final int PIPELINE_USERS_PER_SECOND;
     public static final String ENVIRONMENT;
     public static final String DB_URL;
@@ -39,9 +39,10 @@ public class Config {
         PIPELINE_USERS_PER_SECOND = Integer.parseInt(getProperty("PIPELINE_USERS_PER_SECOND", "10"));
 
         if (hasProperty("USERS_PER_HOUR")) {
-            USERS_PER_SECOND = Double.parseDouble(getProperty("USERS_PER_HOUR","3600")) / 3600.0;
+            USERS_PER_SECOND = Integer.parseInt((Double.parseDouble(getProperty("USERS_PER_HOUR", "3600")) / 3600.0) +
+                "");
         } else {
-            USERS_PER_SECOND = Double.parseDouble(getProperty("USERS_PER_SECOND", "1"));
+            USERS_PER_SECOND = Integer.parseInt(getProperty("USERS_PER_SECOND", "1"));
         }
         if (hasProperty("REQUESTS_PER_HOUR_PER_USER")) {
             REQUESTS_PER_SECOND_PER_USER =
