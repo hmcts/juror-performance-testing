@@ -1,4 +1,4 @@
-package uk.gov.hmcts.juror.performance.simulation.summonsreply;
+package uk.gov.hmcts.juror.performance.simulation;
 
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.Choice;
@@ -7,6 +7,7 @@ import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 import uk.gov.hmcts.juror.performance.scenario.JurorRecordSearchScenario;
 import uk.gov.hmcts.juror.performance.scenario.LoginScenario;
+import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordDeferralScenario;
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordScenario;
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordSummonsScenario;
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordUpdateScenario;
@@ -21,7 +22,7 @@ import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.core.CoreDsl.randomSwitchOrElse;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 
-public class SummonsManagementDeferralSimulation extends AbstractJurorSimulation {
+public class DeferralSimulation extends AbstractJurorSimulation {
     @Override
     protected ScenarioBuilder getScenario() {
         ChainBuilder responded = group("Juror Record - RESPONDED").on(
@@ -32,9 +33,9 @@ public class SummonsManagementDeferralSimulation extends AbstractJurorSimulation
                 JurorRecordUpdateScenario.postUpdateRecordDeferral(),
                 randomSwitchOrElse().on(
                     Choice.withWeight(87,
-                        JurorRecordUpdateScenario.Deferral.postDeferalGrant(Util.getNewScenarioId())),
+                        JurorRecordDeferralScenario.postDeferalGrant(Util.getNewScenarioId())),
                     Choice.withWeight(13,
-                        JurorRecordUpdateScenario.Deferral.postDeferalRefuse(Util.getLastScenarioId()))
+                        JurorRecordDeferralScenario.postDeferalRefuse(Util.getLastScenarioId()))
                 ).orElse(exitHere())
             )
         );

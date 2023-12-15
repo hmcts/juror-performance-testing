@@ -1,27 +1,20 @@
 package uk.gov.hmcts.juror.performance.scenario.jurorrecord;
 
 import io.gatling.javaapi.core.ChainBuilder;
-import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 
-import java.time.format.DateTimeFormatter;
-
-import static io.gatling.javaapi.core.CoreDsl.bodyString;
+import static io.gatling.javaapi.core.CoreDsl.css;
 import static io.gatling.javaapi.core.CoreDsl.exec;
-import static io.gatling.javaapi.core.CoreDsl.exitHere;
-import static io.gatling.javaapi.core.CoreDsl.feed;
 import static io.gatling.javaapi.core.CoreDsl.group;
-import static io.gatling.javaapi.core.CoreDsl.substring;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
 
 public final class JurorRecordUpdateScenario {
 
-    private static final String GROUP_NAME = "Juror Record - Update";
+    public static final String GROUP_NAME = "Juror Record - Update";
 
     public static final String BASE_URL = "/juror-management/juror/#{juror_number}/update";
 
-    private static final DateTimeFormatter deferralDateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private JurorRecordUpdateScenario() {
 
@@ -58,101 +51,19 @@ public final class JurorRecordUpdateScenario {
             );
     }
 
-    public static class Deferral {
-        public static ChainBuilder postDeferalGrant() {
-            return postDeferalGrant(Util.getNewScenarioId());
-        }
-
-        public static ChainBuilder postDeferalGrant(String scenarioId) {
-            return group(scenarioId + GROUP_NAME + " - POST - deferral - GRANT")
-                .on(
-                    feed(Feeders.DEFERAL_CODE_FEEDER).exec(
-                        http("POST - Juror Record - Update Record - deferral - GRANT")
-                            .post(JurorRecordUpdateScenario.BASE_URL + "/deferral")
-                            .headers(Util.COMMON_HEADERS)
-                            .formParam("deferralReason", "#{exc_code}")
-                            .formParam("deferralDecision", "GRANT")
-                            .formParam("deferralDateSelection", "otherDate")
-                            .formParam("deferralDate", Util.createDateString(deferralDateFormatter))
-                            .formParam("hearingDate", "")
-                            .formParam("jurorNumber", "#{juror_number}")
-                            .formParam("_csrf", "#{csrf}")
-                            .formParam("version", "")
-                            .check(Util.validatePageIdentifier("juror record - overview"))
-                            .check(substring("Deferral granted"))
-                    )
-                );
-        }
-
-        public static ChainBuilder postDeferalRefuse() {
-            return postDeferalRefuse(Util.getNewScenarioId());
-        }
-
-        public static ChainBuilder postDeferalRefuse(String scenarioId) {
-            return group(scenarioId + GROUP_NAME + " - POST - deferral - REFUSE")
-                .on(
-                    feed(Feeders.DEFERAL_CODE_FEEDER)
-                        .exec(
-                            http("POST - Juror Record - Update Record - deferral - REFUSE")
-                                .post(JurorRecordUpdateScenario.BASE_URL + "/deferral")
-                                .headers(Util.COMMON_HEADERS)
-                                .formParam("deferralReason", "#{exc_code}")
-                                .formParam("deferralDecision", "REFUSE")
-                                .formParam("deferralDate", "")
-                                .formParam("hearingDate", "")
-                                .formParam("jurorNumber", "#{juror_number}")
-                                .formParam("_csrf", "#{csrf}")
-                                .formParam("version", "")
-                                .check(bodyString())
-                                .check(Util.validatePageIdentifier("juror record - overview"))
-                                .check(substring("Deferral refused"))
-                        )
-                );
-        }
-    }
-
-    public static class Excusal {
-
-        public static ChainBuilder postExcusalGrant() {
-            return postExcusalGrant(Util.getNewScenarioId());
-        }
-        public static ChainBuilder postExcusalGrant(String scenarioId) {
-            return group(scenarioId + GROUP_NAME + " - POST - deferral - GRANT")
-                .on(
-                    feed(Feeders.EXCUSAL_CODE_FEEDER)
-                        .exec(
-                            http("POST - Juror Record - Update Record - Excusal - GRANT")
-                                .post(JurorRecordUpdateScenario.BASE_URL + "/excusal")
-                                .headers(Util.COMMON_HEADERS)
-                                .formParam("excusalCode", "#{exc_code}")
-                                .formParam("excusalDecision", "GRANT")
-                                .formParam("_csrf", "#{csrf}")
-                                .check(bodyString())
-                                .check(Util.validatePageIdentifier("juror record - overview"))
-                                .check(substring("Excusal granted"))
-                        )
-                );
-        }
-
-        public static ChainBuilder postExcusalRefuse() {
-            return postExcusalRefuse(Util.getNewScenarioId());
-        }
-        public static ChainBuilder postExcusalRefuse(String scenarioId) {
-            return group(scenarioId + GROUP_NAME + " - POST - deferral - REFUSE")
-                .on(
-                    feed(Feeders.EXCUSAL_CODE_FEEDER)
-                        .exec(
-                            http("POST - Juror Record - Update Record - Excusal - REFUSE")
-                                .post(JurorRecordUpdateScenario.BASE_URL + "/excusal")
-                                .headers(Util.COMMON_HEADERS)
-                                .formParam("excusalCode", "#{exc_code}")
-                                .formParam("excusalDecision", "REFUSE")
-                                .formParam("_csrf", "#{csrf}")
-                                .check(bodyString())
-                                .check(Util.validatePageIdentifier("juror record - overview"))
-                                .check(substring("Excusal refused"))
-                        )
-                );
-        }
+    public static ChainBuilder postUpdateRecordPostpone() {
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - postpone")
+            .on(
+                exec(
+                    http("POST - Juror Record - Update Record - postpone")
+                        .post(JurorRecordUpdateScenario.BASE_URL)
+                        .headers(Util.COMMON_HEADERS)
+                        .formParam("jurorRecordUpdate", "postpone")
+                        .formParam("jurorDeceased", "")
+                        .formParam("_csrf", "#{csrf}")
+                        .check(Util.validatePageIdentifier("Update Juror Record - Postpone"))
+                        .check(css("#postponeTo", "data-mindate").exists().saveAs("postponeNewServiceStartMinDateStr"))
+                )
+            );
     }
 }

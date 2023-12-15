@@ -11,7 +11,6 @@ import uk.gov.hmcts.juror.support.generation.generators.value.LocalDateGenerator
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,6 +26,8 @@ public class Util {
     public static final Map<String, String> COMMON_HEADERS;
     public static final Map<String, String> PASSWORD_MAP;
     public static final List<String> OWNER_LIST;
+
+    public static final DateTimeFormatter STANDARD_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private static final LocalDateGeneratorImpl LOCAL_DATE_GENERATOR = new LocalDateGeneratorImpl(
         LocalDate.now().plusWeeks(10),//Must be after jurorPool ret_date (check data generation library)
@@ -142,5 +143,11 @@ public class Util {
 
     public static void resetCounter() {
         COUNTER.set(0);
+    }
+
+    public static String convertStringDate(String postponeNewServiceStart, String fromPattern, String toPattern) {
+        return LocalDate.parse(postponeNewServiceStart,
+                DateTimeFormatter.ofPattern(fromPattern))
+            .format(DateTimeFormatter.ofPattern(toPattern));
     }
 }
