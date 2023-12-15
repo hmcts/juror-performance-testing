@@ -43,7 +43,19 @@ public final class JurorRecordUpdateScenario {
     }
 
     public static ChainBuilder postUpdateRecordExcusal() {
-        return exitHere();//TODO
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - excusal")
+            .on(
+                exec(
+                    http("POST - Juror Record - Update Record - excusal")
+                        .post(JurorRecordUpdateScenario.BASE_URL)
+                        .headers(Util.COMMON_HEADERS)
+                        .formParam("jurorRecordUpdate", "excusal")
+                        .formParam("jurorDeceased", "")
+                        .formParam("_csrf", "#{csrf}")
+                        .check(Util.validatePageIdentifier("process - what to do"))
+                        .check(Util.validateHeading("Grant or refuse an excusal"))
+                )
+            );
     }
 
     public static class Deferral {
@@ -104,15 +116,43 @@ public final class JurorRecordUpdateScenario {
         public static ChainBuilder postExcusalGrant() {
             return postExcusalGrant(Util.getNewScenarioId());
         }
-        public static ChainBuilder postExcusalGrant(String newScenarioId) {
-            return exitHere();//TODO
+        public static ChainBuilder postExcusalGrant(String scenarioId) {
+            return group(scenarioId + GROUP_NAME + " - POST - deferral - GRANT")
+                .on(
+                    feed(Feeders.EXCUSAL_CODE_FEEDER)
+                        .exec(
+                            http("POST - Juror Record - Update Record - Excusal - GRANT")
+                                .post(JurorRecordUpdateScenario.BASE_URL + "/excusal")
+                                .headers(Util.COMMON_HEADERS)
+                                .formParam("excusalCode", "#{exc_code}")
+                                .formParam("excusalDecision", "GRANT")
+                                .formParam("_csrf", "#{csrf}")
+                                .check(bodyString())
+                                .check(Util.validatePageIdentifier("juror record - overview"))
+                                .check(substring("Excusal granted"))
+                        )
+                );
         }
 
         public static ChainBuilder postExcusalRefuse() {
             return postExcusalRefuse(Util.getNewScenarioId());
         }
-        public static ChainBuilder postExcusalRefuse(String newScenarioId) {
-            return exitHere();//TODO
+        public static ChainBuilder postExcusalRefuse(String scenarioId) {
+            return group(scenarioId + GROUP_NAME + " - POST - deferral - REFUSE")
+                .on(
+                    feed(Feeders.EXCUSAL_CODE_FEEDER)
+                        .exec(
+                            http("POST - Juror Record - Update Record - Excusal - REFUSE")
+                                .post(JurorRecordUpdateScenario.BASE_URL + "/excusal")
+                                .headers(Util.COMMON_HEADERS)
+                                .formParam("excusalCode", "#{exc_code}")
+                                .formParam("excusalDecision", "REFUSE")
+                                .formParam("_csrf", "#{csrf}")
+                                .check(bodyString())
+                                .check(Util.validatePageIdentifier("juror record - overview"))
+                                .check(substring("Excusal refused"))
+                        )
+                );
         }
     }
 }
