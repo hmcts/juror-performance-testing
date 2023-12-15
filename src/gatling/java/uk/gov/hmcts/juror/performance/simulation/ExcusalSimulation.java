@@ -1,4 +1,4 @@
-package uk.gov.hmcts.juror.performance.simulation.summonsreply;
+package uk.gov.hmcts.juror.performance.simulation;
 
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.Choice;
@@ -7,6 +7,7 @@ import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 import uk.gov.hmcts.juror.performance.scenario.JurorRecordSearchScenario;
 import uk.gov.hmcts.juror.performance.scenario.LoginScenario;
+import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordExcusalScenario;
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordScenario;
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordSummonsScenario;
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordUpdateScenario;
@@ -22,7 +23,7 @@ import static io.gatling.javaapi.core.CoreDsl.randomSwitch;
 import static io.gatling.javaapi.core.CoreDsl.randomSwitchOrElse;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 
-public class SummonsManagementExcusalSimulation extends AbstractJurorSimulation {
+public class ExcusalSimulation extends AbstractJurorSimulation {
 
     @Override
     protected ScenarioBuilder getScenario() {
@@ -34,9 +35,9 @@ public class SummonsManagementExcusalSimulation extends AbstractJurorSimulation 
                 JurorRecordUpdateScenario.postUpdateRecordExcusal(),
                 randomSwitch().on(
                     Choice.withWeight(66,
-                        JurorRecordUpdateScenario.Excusal.postExcusalGrant(Util.getNewScenarioId())),
+                        JurorRecordExcusalScenario.postExcusalGrant(Util.getNewScenarioId())),
                     Choice.withWeight(34,
-                        JurorRecordUpdateScenario.Excusal.postExcusalRefuse(Util.getLastScenarioId()))
+                        JurorRecordExcusalScenario.postExcusalRefuse(Util.getLastScenarioId()))
                 )
             )
         );
