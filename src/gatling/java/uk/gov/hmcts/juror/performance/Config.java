@@ -12,6 +12,7 @@ public class Config {
     public static final long TEST_DURATION_SECONDS;
     public static final long RANK_DOWN_TIME_SECONDS;
     public static final int USERS_PER_SECOND;
+    public static final int CONSTANT_CONCURRENT_USERS;
     public static final int PIPELINE_USERS_PER_SECOND;
     public static final String ENVIRONMENT;
     public static final String DB_URL;
@@ -50,6 +51,7 @@ public class Config {
         } else {
             REQUESTS_PER_SECOND_PER_USER = Double.parseDouble(getProperty("REQUESTS_PER_SECOND_PER_USER", "1"));
         }
+        CONSTANT_CONCURRENT_USERS = Integer.parseInt(getProperty("CONSTANT_CONCURRENT_USERS", "1"));
         REQUESTS_PER_SECOND = Math.max(1, (int) (REQUESTS_PER_SECOND_PER_USER * USERS_PER_SECOND));
     }
 
@@ -75,6 +77,7 @@ public class Config {
         addValueToBuilder(builder, "Test Duration Seconds", String.valueOf(TEST_DURATION_SECONDS));
         addValueToBuilder(builder, "Rank Down Time Seconds", String.valueOf(RANK_DOWN_TIME_SECONDS));
         addValueToBuilder(builder, "Users Per Second", String.valueOf(USERS_PER_SECOND));
+        addValueToBuilder(builder, "Constant concurrent users", String.valueOf(CONSTANT_CONCURRENT_USERS));
         addValueToBuilder(builder, "Pipeline Users Per Second", String.valueOf(PIPELINE_USERS_PER_SECOND));
         return builder.toString();
     }
