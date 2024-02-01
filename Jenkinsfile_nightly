@@ -17,7 +17,7 @@ def secrets = [
   'juror-${params.ENVIRONMENT}': [
     secret('api-POSTGRES-USER', 'DB_USERNAME'),
     secret('api-POSTGRES-PASS', 'DB_PASSWORD'),
-    ],
+  ],
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
