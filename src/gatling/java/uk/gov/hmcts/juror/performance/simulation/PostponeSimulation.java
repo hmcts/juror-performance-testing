@@ -42,6 +42,6 @@ public class PostponeSimulation extends AbstractJurorSimulation {
         );
 
         return scenario("Juror Record update - postpone")
-            .exitBlockOnFail(exec(responded));
+            .exitBlockOnFail().on(exec(responded));
     }
 }

@@ -61,7 +61,7 @@ public class ExcusalSimulation extends AbstractJurorSimulation {
         );
 
         return scenario("Juror Record update - Excusal")
-            .exitBlockOnFail(exec(
+            .exitBlockOnFail().on(exec(
                 randomSwitchOrElse().on(
                     Choice.withWeight(50, responded),
                     Choice.withWeight(50, summoned)
