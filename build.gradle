@@ -1,9 +1,11 @@
 plugins {
     id 'org.owasp.dependencycheck' version '9.0.9'
     id 'java'
-    // The following line allows to load io.gatling.gradle plugin and directly apply it
     id 'io.gatling.gradle' version '3.10.3.1'
 }
+
+group = 'uk.gov.hmcts'
+version = '0.0.1'
 
 java {
     toolchain {
@@ -18,8 +20,8 @@ gatling {
 
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' }
     mavenLocal()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
