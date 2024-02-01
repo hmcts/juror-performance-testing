@@ -64,7 +64,7 @@ public class DeferralSimulation extends AbstractJurorSimulation {
         );
 
         return scenario("Juror Record update - deferral")
-            .exitBlockOnFail(exec(
+            .exitBlockOnFail().on(exec(
                 randomSwitchOrElse().on(
                     Choice.withWeight(50, responded),
                     Choice.withWeight(50, summoned)
