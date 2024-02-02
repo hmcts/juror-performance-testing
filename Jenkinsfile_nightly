@@ -14,7 +14,7 @@ def product = "juror"
 def component = "performance-tests"
 
 def secrets = [
-  'juror-${params.ENVIRONMENT}': [
+  "juror-${params.ENVIRONMENT}": [
     secret('api-POSTGRES-USER', 'DB_USERNAME'),
     secret('api-POSTGRES-PASS', 'DB_PASSWORD'),
   ],
