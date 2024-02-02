@@ -41,6 +41,7 @@ withNightlyPipeline(type, product, component) {
   env.USERS_PER_SECOND = "2"
   env.REQUESTS_PER_SECOND_PER_USER = "1"
 
+  loadVaultSecrets(secrets)
   enablePerformanceTest()
 
   after('performanceTest') {
