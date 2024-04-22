@@ -1,7 +1,7 @@
 package uk.gov.hmcts.juror.performance.simulation;
 
 import io.gatling.javaapi.core.ChainBuilder;
-import io.gatling.javaapi.core.Choice;
+import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
@@ -13,7 +13,6 @@ import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordSummonsSce
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordUpdateScenario;
 import uk.gov.hmcts.juror.performance.scenario.summonsreply.SummonsReplyScenario;
 import uk.gov.hmcts.juror.performance.scenario.summonsreply.SummonsReplyWhatToDoScenario;
-import uk.gov.hmcts.juror.performance.simulation.AbstractJurorSimulation;
 
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.exitHere;
@@ -34,9 +33,9 @@ public class ExcusalSimulation extends AbstractJurorSimulation {
                 JurorRecordScenario.getUpdateRecord(),
                 JurorRecordUpdateScenario.postUpdateRecordExcusal(),
                 randomSwitch().on(
-                    Choice.withWeight(66,
+                    CoreDsl.percent(66).then(
                         JurorRecordExcusalScenario.postExcusalGrant(Util.getNewScenarioId())),
-                    Choice.withWeight(34,
+                    CoreDsl.percent(34).then(
                         JurorRecordExcusalScenario.postExcusalRefuse(Util.getLastScenarioId()))
                 )
             )
@@ -51,9 +50,9 @@ public class ExcusalSimulation extends AbstractJurorSimulation {
                 SummonsReplyScenario.getProcessReply(),
                 SummonsReplyWhatToDoScenario.Excusal.postExcusalRequest(),
                 randomSwitchOrElse().on(
-                    Choice.withWeight(87,
+                    CoreDsl.percent(87).then(
                         SummonsReplyWhatToDoScenario.Excusal.postExcusalGrant(Util.getNewScenarioId())),
-                    Choice.withWeight(13,
+                    CoreDsl.percent(13).then(
                         SummonsReplyWhatToDoScenario.Excusal.postExcusalRefuse(
                             Util.getLastScenarioId()))
                 ).orElse(exitHere())
@@ -63,8 +62,8 @@ public class ExcusalSimulation extends AbstractJurorSimulation {
         return scenario("Juror Record update - Excusal")
             .exitBlockOnFail().on(exec(
                 randomSwitchOrElse().on(
-                    Choice.withWeight(50, responded),
-                    Choice.withWeight(50, summoned)
+                    CoreDsl.percent(50).then(responded),
+                    CoreDsl.percent(50).then(summoned)
                 ).orElse(exitHere())
             ));
     }

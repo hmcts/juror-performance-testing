@@ -1,7 +1,7 @@
 package uk.gov.hmcts.juror.performance.simulation;
 
 import io.gatling.javaapi.core.ChainBuilder;
-import io.gatling.javaapi.core.Choice;
+import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.ScenarioBuilder;
 import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
@@ -13,7 +13,6 @@ import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordSummonsSce
 import uk.gov.hmcts.juror.performance.scenario.jurorrecord.JurorRecordUpdateScenario;
 import uk.gov.hmcts.juror.performance.scenario.summonsreply.SummonsReplyScenario;
 import uk.gov.hmcts.juror.performance.scenario.summonsreply.SummonsReplyWhatToDoScenario;
-import uk.gov.hmcts.juror.performance.simulation.AbstractJurorSimulation;
 
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.exitHere;
@@ -32,9 +31,9 @@ public class DeferralSimulation extends AbstractJurorSimulation {
                 JurorRecordScenario.getUpdateRecord(),
                 JurorRecordUpdateScenario.postUpdateRecordDeferral(),
                 randomSwitchOrElse().on(
-                    Choice.withWeight(87,
+                    CoreDsl.percent(87).then(
                         JurorRecordDeferralScenario.postDeferalGrant(Util.getNewScenarioId())),
-                    Choice.withWeight(13,
+                    CoreDsl.percent(13).then(
                         JurorRecordDeferralScenario.postDeferalRefuse(Util.getLastScenarioId()))
                 ).orElse(exitHere())
             )
@@ -49,13 +48,13 @@ public class DeferralSimulation extends AbstractJurorSimulation {
                 SummonsReplyWhatToDoScenario.Deferral.postDeferralRequest(),
                 //Select how many dates to enter
                 randomSwitchOrElse().on(
-                    Choice.withWeight(10,
+                    CoreDsl.percent(10).then(
                         SummonsReplyWhatToDoScenario.Deferral.getPostDeferralRequest(
                             Util.getNewScenarioId(), 1)),
-                    Choice.withWeight(20,
+                    CoreDsl.percent(20).then(
                         SummonsReplyWhatToDoScenario.Deferral.getPostDeferralRequest(
                             Util.getLastScenarioId(), 2)),
-                    Choice.withWeight(70,
+                    CoreDsl.percent(70).then(
                         SummonsReplyWhatToDoScenario.Deferral.getPostDeferralRequest(
                             Util.getLastScenarioId(), 3))
                 ).orElse(exitHere()),
@@ -66,8 +65,8 @@ public class DeferralSimulation extends AbstractJurorSimulation {
         return scenario("Juror Record update - deferral")
             .exitBlockOnFail().on(exec(
                 randomSwitchOrElse().on(
-                    Choice.withWeight(50, responded),
-                    Choice.withWeight(50, summoned)
+                    CoreDsl.percent(50).then(responded),
+                    CoreDsl.percent(50).then(summoned)
                 ).orElse(exitHere())
             ));
     }
