@@ -3,10 +3,13 @@ package uk.gov.hmcts.juror.performance.scenario.jurorrecord;
 import io.gatling.javaapi.core.ChainBuilder;
 import uk.gov.hmcts.juror.performance.Util;
 
+import java.time.Duration;
+
 import static io.gatling.javaapi.core.CoreDsl.css;
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 
 public final class JurorRecordUpdateScenario {
@@ -31,7 +34,7 @@ public final class JurorRecordUpdateScenario {
                         .formParam("jurorDeceased", "")
                         .formParam("_csrf", "#{csrf}")
                         .check(Util.validatePageIdentifier("process - deferral"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
@@ -47,7 +50,7 @@ public final class JurorRecordUpdateScenario {
                         .formParam("_csrf", "#{csrf}")
                         .check(Util.validatePageIdentifier("process - what to do"))
                         .check(Util.validateHeading("Grant or refuse an excusal"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
@@ -63,7 +66,7 @@ public final class JurorRecordUpdateScenario {
                         .formParam("_csrf", "#{csrf}")
                         .check(Util.validatePageIdentifier("Update Juror Record - Postpone"))
                         .check(css("#postponeTo", "data-mindate").exists().saveAs("postponeNewServiceStartMinDateStr"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 }

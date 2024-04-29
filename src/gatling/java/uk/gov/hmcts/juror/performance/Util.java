@@ -4,6 +4,7 @@ import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.CheckBuilder;
 import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.FeederBuilder;
+import io.gatling.javaapi.core.Session;
 import io.gatling.javaapi.jdbc.JdbcDsl;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.juror.support.generation.generators.value.LocalDateGeneratorImpl;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static io.gatling.javaapi.core.CoreDsl.bodyString;
 import static io.gatling.javaapi.core.CoreDsl.css;
 import static io.gatling.javaapi.core.CoreDsl.doIfEqualsOrElse;
 import static io.gatling.javaapi.core.CoreDsl.exec;
@@ -22,9 +24,9 @@ import static io.gatling.javaapi.core.CoreDsl.exec;
 @Slf4j
 public class Util {
 
+    public static final long DEFAULT_THINK_TIME_MS = 200;
     private static final AtomicInteger COUNTER;
     public static final Map<String, String> COMMON_HEADERS;
-    public static final Map<String, String> PASSWORD_MAP;
     public static final DateTimeFormatter STANDARD_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private static final LocalDateGeneratorImpl LOCAL_DATE_GENERATOR = new LocalDateGeneratorImpl(
@@ -47,13 +49,18 @@ public class Util {
             "upgrade-insecure-requests", "1",
             "origin", "null"
         );
-        PASSWORD_MAP = Map.of(
-            "5BAA61E4C9B93F3F", "password"
-        );
     }
 
     public static CheckBuilder.Final saveCsrf() {
         return css("input[name='_csrf']", "value").saveAs("csrf");
+    }
+    public static CheckBuilder saveBody() {
+        return bodyString().saveAs("body");
+    }
+
+    public static Session printBody(Session session){
+        log.info("Body: " + session.getString("body"));
+        return session;
     }
 
 
@@ -65,9 +72,6 @@ public class Util {
         return css("h1.govuk-heading-l").is(headingValue);
     }
 
-    public static String getPasswordFromDB(String password) {
-        return PASSWORD_MAP.get(password);
-    }
 
     public static ChainBuilder isBureau(ChainBuilder bureauActions,
                                         ChainBuilder courtActions) {
@@ -125,4 +129,6 @@ public class Util {
                 DateTimeFormatter.ofPattern(fromPattern))
             .format(DateTimeFormatter.ofPattern(toPattern));
     }
+
+
 }

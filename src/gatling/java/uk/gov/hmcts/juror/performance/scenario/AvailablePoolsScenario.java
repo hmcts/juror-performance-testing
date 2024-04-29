@@ -2,14 +2,18 @@ package uk.gov.hmcts.juror.performance.scenario;
 
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.http.HttpRequestActionBuilder;
+import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 import uk.gov.hmcts.juror.support.generation.generators.value.RandomFromCollectionGeneratorImpl;
+
+import java.time.Duration;
 
 import static io.gatling.javaapi.core.CoreDsl.css;
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.core.CoreDsl.substring;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 public class AvailablePoolsScenario {
     private static final String GROUP_NAME = "Available Pools";
@@ -42,7 +46,7 @@ public class AvailablePoolsScenario {
                 String headingValue = session.getString("headingValue");
                 return headingValue != null
                     && headingValue.equals("Select a pool for this date");
-            }).then(css("input[name=\"deferralDateAndPool\"]","value")
+            }).then(css("input[name=\"deferralDateAndPool\"]", "value")
                 .findAll().notNull().saveAs("deferralDateAndPools")
             );
     }
@@ -66,9 +70,18 @@ public class AvailablePoolsScenario {
                         .headers(Util.COMMON_HEADERS)
                         .formParam("deferralDateAndPool", "#{deferralDateAndPoolDate}")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("juror record - overview"))
-                        .check(substring("Juror record updated: <b>Postponed</b>"))
-                )
+
+                        .check(Util.validatePageIdentifier("process - postpone"))
+                        .check(substring("Do you want to print a postponement letter?"))
+                        .check(Util.saveCsrf())
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
+                    .exec(PrintLetterScenario.postPrintLetter(
+                        "POST - Available pools - " + name,
+                        "postponement",
+                        "postpone",
+                        "Juror record updated: <b>Postponed</b>",
+                        "process - postpone"
+                    ))
             );
     }
 }

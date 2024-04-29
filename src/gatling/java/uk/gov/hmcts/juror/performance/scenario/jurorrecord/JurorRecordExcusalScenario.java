@@ -3,11 +3,17 @@ package uk.gov.hmcts.juror.performance.scenario.jurorrecord;
 import io.gatling.javaapi.core.ChainBuilder;
 import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
+import uk.gov.hmcts.juror.performance.scenario.PrintLetterScenario;
+import uk.gov.hmcts.juror.support.generation.generators.code.Generator;
+import uk.gov.hmcts.juror.support.generation.generators.value.RandomFromCollectionGeneratorImpl;
+
+import java.time.Duration;
 
 import static io.gatling.javaapi.core.CoreDsl.feed;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.core.CoreDsl.substring;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 public class JurorRecordExcusalScenario {
     private static final String GROUP_NAME = JurorRecordUpdateScenario.GROUP_NAME + " - excusal";
@@ -28,9 +34,16 @@ public class JurorRecordExcusalScenario {
                             .formParam("excusalCode", "#{exc_code}")
                             .formParam("excusalDecision", "GRANT")
                             .formParam("_csrf", "#{csrf}")
-                            .check(Util.validatePageIdentifier("juror record - overview"))
-                            .check(substring("Excusal granted"))
-                    )
+                            .check(Util.validatePageIdentifier("process - excusal"))
+                            .check(substring("Do you want to print an excusal granted letter?"))
+                    ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
+                    .exec(PrintLetterScenario.postPrintLetter(
+                        "POST - Juror Record - Update Record - Excusal - GRANT",
+                        "excusal-granted",
+                        "excusal/grant",
+                        "Excusal granted",
+                        "process - excusal"
+                    ))
             );
     }
 
@@ -51,7 +64,7 @@ public class JurorRecordExcusalScenario {
                             .formParam("_csrf", "#{csrf}")
                             .check(Util.validatePageIdentifier("juror record - overview"))
                             .check(substring("Excusal refused"))
-                    )
+                    ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 }

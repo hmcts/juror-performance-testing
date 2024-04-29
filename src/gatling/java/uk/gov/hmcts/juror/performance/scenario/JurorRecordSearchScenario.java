@@ -3,10 +3,13 @@ package uk.gov.hmcts.juror.performance.scenario;
 import io.gatling.javaapi.core.ChainBuilder;
 import uk.gov.hmcts.juror.performance.Util;
 
+import java.time.Duration;
+
 import static io.gatling.javaapi.core.CoreDsl.css;
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 public final class JurorRecordSearchScenario {
     private static final String GROUP_NAME = "Juror Record Search";
@@ -26,7 +29,7 @@ public final class JurorRecordSearchScenario {
                         .formParam("_csrf", "#{csrf}")
                         .check(Util.validatePageIdentifier("juror record - overview"))
                         .check(css("#jurorNumber").isEL("#{juror_number}"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 }

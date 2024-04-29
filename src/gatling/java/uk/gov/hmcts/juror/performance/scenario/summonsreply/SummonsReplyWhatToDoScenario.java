@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 
+import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import static io.gatling.javaapi.core.CoreDsl.feed;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.core.CoreDsl.substring;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 @Slf4j
 public final class SummonsReplyWhatToDoScenario {
@@ -106,7 +108,7 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("_csrf", "#{csrf}")
                             .check(Util.validatePageIdentifier("process - what to do"))
                             .check(Util.validateHeading("Enter the juror's preferred start dates"))
-                    )
+                    ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
                 );
         }
 
@@ -128,7 +130,7 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("_csrf", "#{csrf}")
                             .check(Util.validatePageIdentifier("process - what to do"))
                             .check(Util.validateHeading("Defer this juror"))
-                    )
+                    ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
                 );
         }
 
@@ -151,7 +153,7 @@ public final class SummonsReplyWhatToDoScenario {
                             ).checkIf(session -> !Objects.equals(session.getString("owner"), "400")).then(
                                 Util.validatePageIdentifier("Homepage")
                             )
-                    )
+                    ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
                 );
         }
     }
