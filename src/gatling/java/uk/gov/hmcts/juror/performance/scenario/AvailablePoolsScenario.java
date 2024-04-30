@@ -70,7 +70,6 @@ public class AvailablePoolsScenario {
                         .headers(Util.COMMON_HEADERS)
                         .formParam("deferralDateAndPool", "#{deferralDateAndPoolDate}")
                         .formParam("_csrf", "#{csrf}")
-
                         .check(Util.validatePageIdentifier("process - postpone"))
                         .check(substring("Do you want to print a postponement letter?"))
                         .check(Util.saveCsrf())

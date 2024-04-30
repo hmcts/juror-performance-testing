@@ -2,17 +2,13 @@ package uk.gov.hmcts.juror.performance;
 
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.CheckBuilder;
-import io.gatling.javaapi.core.CoreDsl;
-import io.gatling.javaapi.core.FeederBuilder;
 import io.gatling.javaapi.core.Session;
-import io.gatling.javaapi.jdbc.JdbcDsl;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.juror.support.generation.generators.value.LocalDateGeneratorImpl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -54,11 +50,12 @@ public class Util {
     public static CheckBuilder.Final saveCsrf() {
         return css("input[name='_csrf']", "value").saveAs("csrf");
     }
+
     public static CheckBuilder saveBody() {
         return bodyString().saveAs("body");
     }
 
-    public static Session printBody(Session session){
+    public static Session printBody(Session session) {
         log.info("Body: " + session.getString("body"));
         return session;
     }

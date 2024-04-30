@@ -51,6 +51,8 @@ public class Feeders {
     public static final ChainBuilder JUROR_NUMBER_FEEDER_BY_STATUS;
     public static final FeederBuilder<?> JUROR_NUMBER_FEEDER;
 
+    public static final FeederBuilder<?> JUROR_NUMBER_RESPONSE_FEEDER;
+
     private static final Set<String> OWNER_LIST;
 
     public static final FeederBuilder<Object> OWNER_FEEDER;
@@ -85,6 +87,11 @@ public class Feeders {
         HashMap<String, ValueGenerator<User>> tmpUserList = new HashMap<>();
 
 
+        JUROR_NUMBER_RESPONSE_FEEDER =
+            jdbcFeeder("select jr.juror_number, jr.last_name, jp.pool_number"
+                + " from juror_mod.juror_response jr join juror_mod.juror_pool jp on jr.juror_number = jp"
+                + ".juror_number").random();
+
         OWNER_LIST = Feeders.jdbcFeederCached("select distinct * from juror_mod.user_courts uc "
                 + "join juror_mod.users u on u.username = uc.username "
                 + "where u.user_type <> 'ADMINISTRATOR'")
@@ -102,8 +109,9 @@ public class Feeders {
                         + " and u.user_type <> 'ADMINISTRATOR'")
                     .readRecords()
                     .stream()
-                    .map(stringObjectMap -> new User(
-                        String.valueOf(stringObjectMap.get("username")))
+                    .map(stringObjectMap -> String.valueOf(stringObjectMap.get("username")))
+                    .distinct()
+                    .map(User::new
                     ).toList())));
 
         USER_FEEDER_MAP = Collections.unmodifiableMap(tmpUserList);
