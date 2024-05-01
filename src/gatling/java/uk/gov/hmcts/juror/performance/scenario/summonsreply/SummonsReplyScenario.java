@@ -3,9 +3,12 @@ package uk.gov.hmcts.juror.performance.scenario.summonsreply;
 import io.gatling.javaapi.core.ChainBuilder;
 import uk.gov.hmcts.juror.performance.Util;
 
+import java.time.Duration;
+
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 public final class SummonsReplyScenario {
 
@@ -23,7 +26,7 @@ public final class SummonsReplyScenario {
                         .get(BASE_URL + "/process")
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.validatePageIdentifier("process - what to do"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 }

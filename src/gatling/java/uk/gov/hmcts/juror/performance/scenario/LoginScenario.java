@@ -5,10 +5,13 @@ import io.gatling.javaapi.core.FeederBuilder;
 import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 
+import java.time.Duration;
+
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.feed;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 public final class LoginScenario {
     private static final String GROUP_NAME = "Login";
@@ -31,7 +34,7 @@ public final class LoginScenario {
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.validatePageIdentifier("sign in"))
                         .check(Util.saveCsrf())
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
@@ -47,10 +50,10 @@ public final class LoginScenario {
                         .post(LOGIN_URL)
                         .headers(Util.COMMON_HEADERS)
                         .formParam("userID", "#{username}")
-                        .formParam("password", "#{password}")
+                        .formParam("password", "A")
                         .formParam("_csrf", "#{csrf}")
                         .check(Util.validatePageIdentifier("Homepage"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
@@ -66,10 +69,10 @@ public final class LoginScenario {
                         .post(LOGIN_URL)
                         .headers(Util.COMMON_HEADERS)
                         .formParam("userID", "#{username}")
-                        .formParam("password", "#{password}")
+                        .formParam("password", "A")
                         .formParam("_csrf", "#{csrf}")
                         .check(Util.validatePageIdentifier("your work - to do"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 

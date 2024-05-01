@@ -5,11 +5,13 @@ import uk.gov.hmcts.juror.performance.Util;
 import uk.gov.hmcts.juror.performance.scenario.AvailablePoolsScenario;
 import uk.gov.hmcts.juror.support.generation.util.RandomGenerator;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 public class JurorRecordPostponeScenario {
     private static final String GROUP_NAME = JurorRecordUpdateScenario.GROUP_NAME + " - postpone";
@@ -26,14 +28,14 @@ public class JurorRecordPostponeScenario {
                     LocalDate newDate = LocalDate.from(Util.STANDARD_DATE_FORMATTER.parse(minDate))
                         .plusWeeks(RandomGenerator.nextInt(1, 3));
                     return session.set("postponeNewServiceStart", Util.STANDARD_DATE_FORMATTER.format(newDate));
-                }).exec(
+                }).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS)).exec(
                     AvailablePoolsScenario.applyChecks(http("POST - Juror Record - Update Record - postpone - date")
                         .post(BASE_URL)
                         .headers(Util.COMMON_HEADERS)
                         .formParam("postponeTo", "#{postponeNewServiceStart}")
                         .formParam("_csrf", "#{csrf}")
                     )
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 }

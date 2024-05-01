@@ -23,16 +23,10 @@ import static io.gatling.javaapi.core.CoreDsl.rampUsersPerSec;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
 @Slf4j
-public abstract class AbstractJurorSimulation extends Simulation {
-    private final HttpProtocolBuilder httpProtocol;
+public abstract class AbstractJurorSimulation extends BaseSimulation {
 
 
     protected AbstractJurorSimulation() {
-        this.httpProtocol = http
-            .baseUrl(Config.BASE_URL)
-            .doNotTrackHeader("1")
-            .inferHtmlResources()
-            .silentResources();
         setupClosed();
     }
 
@@ -42,7 +36,7 @@ public abstract class AbstractJurorSimulation extends Simulation {
         log.info(Config.asString());
     }
 
-    private ScenarioBuilder getScenarioBuilder() {
+    protected ScenarioBuilder getScenarioBuilder() {
         Util.resetCounter();
         return getScenario();
     }
@@ -64,16 +58,6 @@ public abstract class AbstractJurorSimulation extends Simulation {
                     .injectClosed(simulationProfileClosed().toArray(new ClosedInjectionStep[0]))
             )
         );
-    }
-
-    private void addAssertions(SetUp setUp) {
-        setUp.protocols(httpProtocol)
-            .assertions(
-                //No failed requests
-                global().failedRequests().count().is(0L),
-                //95% of requests should respond within 500ms
-                global().responseTime().percentile3().lte(500)
-            );
     }
 
     protected abstract ScenarioBuilder getScenario();

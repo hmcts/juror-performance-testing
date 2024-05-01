@@ -1,11 +1,15 @@
 package uk.gov.hmcts.juror.performance.scenario.jurorrecord;
 
 import io.gatling.javaapi.core.ChainBuilder;
+import io.gatling.javaapi.core.exec.Executable;
 import uk.gov.hmcts.juror.performance.Util;
+
+import java.time.Duration;
 
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.http.HttpDsl.http;
+import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
 public final class JurorRecordScenario {
     private static final String GROUP_NAME = "Juror Record";
@@ -24,7 +28,7 @@ public final class JurorRecordScenario {
                         .get(BASE_URL + "/summons")
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.validatePageIdentifier("juror record - summons"))
-                )
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
@@ -35,8 +39,20 @@ public final class JurorRecordScenario {
                     http("GET - Juror Record - Update Record")
                         .get(JurorRecordUpdateScenario.BASE_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("Update juror record"))
-                )
+                        .check(Util.validatePageIdentifier("Update juror record - Select option"))
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
+            );
+    }
+
+    public static Executable getExpenses() {
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses")
+            .on(
+                exec(
+                    http("GET - Juror Record - Expenses")
+                        .get(BASE_URL + "/expenses")
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.validatePageIdentifier("juror record - expenses"))
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 }

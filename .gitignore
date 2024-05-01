@@ -10,3 +10,4 @@ build/**
 out/**
 *.lock
 /.idea/
+/runners/manualCombinedPvtServer.sh
