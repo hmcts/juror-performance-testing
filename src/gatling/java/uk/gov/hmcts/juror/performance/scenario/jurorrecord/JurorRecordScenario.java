@@ -1,6 +1,7 @@
 package uk.gov.hmcts.juror.performance.scenario.jurorrecord;
 
 import io.gatling.javaapi.core.ChainBuilder;
+import io.gatling.javaapi.core.exec.Executable;
 import uk.gov.hmcts.juror.performance.Util;
 
 import java.time.Duration;
@@ -39,6 +40,18 @@ public final class JurorRecordScenario {
                         .get(JurorRecordUpdateScenario.BASE_URL)
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.validatePageIdentifier("Update juror record - Select option"))
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
+            );
+    }
+
+    public static Executable getExpenses() {
+        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses")
+            .on(
+                exec(
+                    http("GET - Juror Record - Expenses")
+                        .get(BASE_URL + "/expenses")
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.validatePageIdentifier("juror record - expenses"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }

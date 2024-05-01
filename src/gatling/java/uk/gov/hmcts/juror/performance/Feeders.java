@@ -20,25 +20,42 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static io.gatling.javaapi.core.CoreDsl.doSwitch;
 import static io.gatling.javaapi.core.CoreDsl.feed;
 
 @Slf4j
 public class Feeders {
+    private static final Map<String, FeederGenerator> JUROR_NUMBER_EXPENSE_FEEDER = new HashMap<>();
 
 
     private static final Map<String, FeederGenerator> JUROR_NUMBER_FEEDER_BY_OWNER_MAP = new HashMap<>();
     public static final Generator<String> YES_NO_GEN = new RandomFromCollectionGeneratorImpl<>("yes", "no");
 
     public static FeederGenerator getOrCreateByOwnerAndStatus(String owner, String number) {
-        if (!JUROR_NUMBER_FEEDER_BY_OWNER_MAP.containsKey(owner)) {
-            JUROR_NUMBER_FEEDER_BY_OWNER_MAP.put(owner, new FeederGenerator(
+        final String key = owner + "-" + number;
+        if (!JUROR_NUMBER_FEEDER_BY_OWNER_MAP.containsKey(key)) {
+            JUROR_NUMBER_FEEDER_BY_OWNER_MAP.put(key, new FeederGenerator(
                 jdbcFeeder("select juror_number from juror_mod.juror_pool where owner = '" + owner + "'"
                     + " and status = " + number)
                     .random(),
                 "juror_number"));
         }
         return JUROR_NUMBER_FEEDER_BY_OWNER_MAP.get(owner);
+    }
+
+
+    public static FeederGenerator getOrJurorNumberExpenseFeeder(String owner) {
+        if (!JUROR_NUMBER_EXPENSE_FEEDER.containsKey(owner)) {
+            JUROR_NUMBER_EXPENSE_FEEDER.put(owner, new FeederGenerator(
+                jdbcFeeder("select a.juror_number as juror_number, a.attendance_date as attendance_date,"
+                    + " a.loc_code as loc_code from juror_mod.appearance a "
+                    + "where a.loc_code in (select loc_code from juror_mod.court_location cl where cl.owner = '" + owner
+                    + "') "
+                    + "and a.appearance_stage = 'EXPENSE_ENTERED' "
+                    + "and a.is_draft_expense = true")
+                    .queue(),
+                "juror_number", "attendance_date", "loc_code"));
+        }
+        return JUROR_NUMBER_EXPENSE_FEEDER.get(owner);
     }
 
     private record User(String username) {
@@ -104,7 +121,8 @@ public class Feeders {
             new LoopFromCollectionGeneratorImpl<>(
                 jdbcFeederCached(
                     "select username, owner from juror_mod.users u where "
-                        + "u.username in (select uc.username from juror_mod.user_courts uc where uc.username = u.username"
+                        + "u.username in (select uc.username from juror_mod.user_courts uc where uc.username = u"
+                        + ".username"
                         + " and uc.loc_code = '" + owner + "')"
                         + " and u.user_type <> 'ADMINISTRATOR'")
                     .readRecords()

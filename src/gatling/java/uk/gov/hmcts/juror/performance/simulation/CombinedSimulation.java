@@ -60,7 +60,11 @@ public class CombinedSimulation extends BaseSimulation {
 //                        simulationProfileClosed(2)
 //                            .toArray(new ClosedInjectionStep[0])),
                 //TODO utilization report (90 courts @ 2 per court per month) (2 per hour per user - 20 users)
-                //TODO expenses tbc
+                //Expenses -- 333 by 20 per hour (17 per hour per user) -- 12 Jurors Per
+//                ExpenseSimulation.getScenarioBuilderStatic(perUnitTime(17, TimeUnit.HOURS))
+//                    .injectClosed(
+//                        simulationProfileClosed(20)
+//                            .toArray(new ClosedInjectionStep[0]))
 
             ).maxDuration(Duration.ofSeconds(TOTAL_TEST_TIME_SECONDS + (RAMP_TIME_SECONDS * 2)))
         );
