@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static io.gatling.javaapi.core.CoreDsl.feed;
+import static io.gatling.javaapi.core.CoreDsl.onCase;
 
 @Slf4j
 public class Feeders {
@@ -164,7 +165,7 @@ public class Feeders {
     private static List<Choice.WithKey> toChoiceList(Map<String, FeederBuilder<Object>> map) {
         return map.entrySet()
             .stream()
-            .map(entry -> Choice.withKey(entry.getKey(), feed(entry.getValue())))
+            .map(entry -> onCase(entry.getKey()).then(feed(entry.getValue())))
             .toList();
     }
 

@@ -10,6 +10,7 @@ import static io.gatling.javaapi.core.CoreDsl.doSwitchOrElse;
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.exitHere;
 import static io.gatling.javaapi.core.CoreDsl.group;
+import static io.gatling.javaapi.core.CoreDsl.onCase;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
@@ -48,8 +49,8 @@ public final class JurorRecordSummonsScenario {
     public static ChainBuilder getSummonsReply() {
         return
             doSwitchOrElse("#{reply_type}").on(
-                Choice.withKey("paper", getSummonsReplyPaper()),
-                Choice.withKey("digital", getSummonsReplyDigital())
+                onCase("paper").then(getSummonsReplyPaper()),
+                onCase("digital").then(getSummonsReplyDigital())
             ).orElse(exitHere());
     }
 }

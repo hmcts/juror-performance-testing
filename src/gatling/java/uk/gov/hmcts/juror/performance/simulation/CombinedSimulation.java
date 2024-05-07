@@ -11,8 +11,8 @@ import static io.gatling.javaapi.core.CoreDsl.rampConcurrentUsers;
 
 public class CombinedSimulation extends BaseSimulation {
 
-    private final static int TOTAL_TEST_TIME_SECONDS = 10; //Minus any ramp up/down time
-    private final static int RAMP_TIME_SECONDS = 1;
+    private final static int TOTAL_TEST_TIME_SECONDS = 3600; //Minus any ramp up/down time
+    private final static int RAMP_TIME_SECONDS = 30;
 
 
     public CombinedSimulation() {
@@ -26,7 +26,7 @@ public class CombinedSimulation extends BaseSimulation {
                 //Juror Record Search  -- 200 by 20 per hour (10 per hour per user)
                 JurorRecordSearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
                     .injectClosed(
-                        simulationProfileClosed(20)
+                        simulationProfileClosed()
                             .toArray(new ClosedInjectionStep[0]))
 //                //Summons reply search -- 200 by 20 per hour (10 per hour per user)
 //                SummonsReplySearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
@@ -76,19 +76,15 @@ public class CombinedSimulation extends BaseSimulation {
     }
 
 
-    private List<ClosedInjectionStep> simulationProfileClosed(int constantConcurrentUsers) {
-        return simulationProfileClosed(constantConcurrentUsers, RAMP_TIME_SECONDS, TOTAL_TEST_TIME_SECONDS,
-            RAMP_TIME_SECONDS);
-    }
 
-    private List<ClosedInjectionStep> simulationProfileClosed(int constantConcurrentUsers, int rampUpTimeSeconds,
-                                                              int testDurationSeconds, int rampDownTimeSeconds) {
+    private List<ClosedInjectionStep> simulationProfileClosed() {
         return List.of(
-            rampConcurrentUsers(0).to(constantConcurrentUsers)
-                .during(Duration.ofSeconds(rampUpTimeSeconds)),
-            constantConcurrentUsers(constantConcurrentUsers).during(Duration.ofSeconds(testDurationSeconds)),
-            rampConcurrentUsers(constantConcurrentUsers).to(0)
-                .during(Duration.ofSeconds(rampDownTimeSeconds))
+            rampConcurrentUsers(0).to(20)
+                .during(Duration.ofSeconds(CombinedSimulation.RAMP_TIME_SECONDS)),
+            constantConcurrentUsers(20).during(Duration.ofSeconds(
+                CombinedSimulation.TOTAL_TEST_TIME_SECONDS)),
+            rampConcurrentUsers(20).to(0)
+                .during(Duration.ofSeconds(CombinedSimulation.RAMP_TIME_SECONDS))
         );
     }
 }
