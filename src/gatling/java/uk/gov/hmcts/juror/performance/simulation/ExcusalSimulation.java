@@ -59,7 +59,6 @@ public class ExcusalSimulation extends AbstractJurorSimulation {
                     ));
     }
 
-    //TODO CONFRIM IF THIS WORKS
     public static ScenarioBuilder getBureauScenarioBuilderStatic(int secondsPerTransaction) {
         Util.resetCounter();
         return scenario("Juror Record update - Excusal (Bureau)")
