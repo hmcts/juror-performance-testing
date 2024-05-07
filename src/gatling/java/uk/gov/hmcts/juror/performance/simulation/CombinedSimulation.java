@@ -11,8 +11,8 @@ import static io.gatling.javaapi.core.CoreDsl.rampConcurrentUsers;
 
 public class CombinedSimulation extends BaseSimulation {
 
-    private final static int TOTAL_TEST_TIME_SECONDS = 3600; //Minus any ramp up/down time
-    private final static int RAMP_TIME_SECONDS = 30;
+    private final static int TOTAL_TEST_TIME_SECONDS = 30; //Minus any ramp up/down time
+    private final static int RAMP_TIME_SECONDS = 5;
 
 
     public CombinedSimulation() {
