@@ -33,7 +33,7 @@ public final class JurorRecordUpdateScenario {
                         .formParam("jurorRecordUpdate", "deferral")
                         .formParam("jurorDeceased", "")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("process - deferral"))
+                        .check(Util.validatePageIdentifier("Process - Deferral"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
@@ -48,7 +48,7 @@ public final class JurorRecordUpdateScenario {
                         .formParam("jurorRecordUpdate", "excusal")
                         .formParam("jurorDeceased", "")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("process - what to do"))
+                        .check(Util.validatePageIdentifier("Process - what to do"))
                         .check(Util.validateHeading("Grant or refuse an excusal"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
@@ -64,7 +64,7 @@ public final class JurorRecordUpdateScenario {
                         .formParam("jurorRecordUpdate", "postpone")
                         .formParam("jurorDeceased", "")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("Update Juror Record - Postpone"))
+                        .check(Util.validatePageIdentifier("Update juror record - Postpone"))
                         .check(css("#postponeTo", "data-mindate").exists().saveAs("postponeNewServiceStartMinDateStr"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );

@@ -11,8 +11,8 @@ import static io.gatling.javaapi.core.CoreDsl.rampConcurrentUsers;
 
 public class CombinedSimulation extends BaseSimulation {
 
-    private final static int TOTAL_TEST_TIME_SECONDS = 30; //Minus any ramp up/down time
-    private final static int RAMP_TIME_SECONDS = 5;
+    private final static int TOTAL_TEST_TIME_SECONDS = 60; //Minus any ramp up/down time
+    private final static int RAMP_TIME_SECONDS = 10;
 
 
     public CombinedSimulation() {
@@ -26,7 +26,7 @@ public class CombinedSimulation extends BaseSimulation {
                 //Juror Record Search  -- 200 by 20 per hour (10 per hour per user)
                 JurorRecordSearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
                     .injectClosed(
-                        simulationProfileClosed()
+                        simulationProfileClosed(20)
                             .toArray(new ClosedInjectionStep[0]))
 //                //Summons reply search -- 200 by 20 per hour (10 per hour per user)
 //                SummonsReplySearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
@@ -77,13 +77,13 @@ public class CombinedSimulation extends BaseSimulation {
 
 
 
-    private List<ClosedInjectionStep> simulationProfileClosed() {
+    private List<ClosedInjectionStep> simulationProfileClosed(int users) {
         return List.of(
-            rampConcurrentUsers(0).to(20)
+            rampConcurrentUsers(0).to(users)
                 .during(Duration.ofSeconds(CombinedSimulation.RAMP_TIME_SECONDS)),
-            constantConcurrentUsers(20).during(Duration.ofSeconds(
+            constantConcurrentUsers(users).during(Duration.ofSeconds(
                 CombinedSimulation.TOTAL_TEST_TIME_SECONDS)),
-            rampConcurrentUsers(20).to(0)
+            rampConcurrentUsers(users).to(0)
                 .during(Duration.ofSeconds(CombinedSimulation.RAMP_TIME_SECONDS))
         );
     }

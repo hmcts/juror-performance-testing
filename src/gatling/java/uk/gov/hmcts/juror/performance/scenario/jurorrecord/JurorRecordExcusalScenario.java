@@ -62,7 +62,7 @@ public class JurorRecordExcusalScenario {
                             .formParam("excusalCode", "#{exc_code}")
                             .formParam("excusalDecision", "REFUSE")
                             .formParam("_csrf", "#{csrf}")
-                            .check(Util.validatePageIdentifier("juror record - overview"))
+                            .check(Util.validatePageIdentifier("Juror record - Overview"))
                             .check(substring("Excusal refused"))
                     ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );

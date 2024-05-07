@@ -22,7 +22,7 @@ public class Config {
     private static final double REQUESTS_PER_SECOND_PER_USER;
 
     static {
-        BASE_URL = getProperty("TEST_URL", "http://0.0.0.0:3000");
+        BASE_URL = getProperty("BASE_URL", "http://0.0.0.0:3000");
         TEST_TYPE =
             TestType.valueOf(getProperty("TEST_URL", TestType.PERFORMANCE.name()));
         DEBUG =

@@ -62,7 +62,7 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("excusalDecision", "GRANT")
                             .formParam("_csrf", "#{csrf}")
                             .checkIf(session -> Objects.equals(session.getString("owner"), "400")).then(
-                                Util.validatePageIdentifier("your work - to do"),
+                                Util.validatePageIdentifier("Your work - To do"),
                                 substring("Excusal granted")
                             ).checkIf(session -> !Objects.equals(session.getString("owner"), "400")).then(
                                 Util.validatePageIdentifier("Homepage")
@@ -86,7 +86,7 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("excusalDecision", "REFUSE")
                             .formParam("_csrf", "#{csrf}")
                             .checkIf(session -> Objects.equals(session.getString("owner"), "400")).then(
-                                Util.validatePageIdentifier("your work - to do"),
+                                Util.validatePageIdentifier("Your work - To do"),
                                 substring("Excusal refused")
                             ).checkIf(session -> !Objects.equals(session.getString("owner"), "400")).then(
                                 Util.validatePageIdentifier("Homepage")
@@ -148,7 +148,7 @@ public final class SummonsReplyWhatToDoScenario {
                             .formParam("_csrf", "#{csrf}")
                             .formParam("version", "")
                             .checkIf(session -> Objects.equals(session.getString("owner"), "400")).then(
-                                Util.validatePageIdentifier("your work - to do"),
+                                Util.validatePageIdentifier("Your work - To do"),
                                 substring("Deferral granted")
                             ).checkIf(session -> !Objects.equals(session.getString("owner"), "400")).then(
                                 Util.validatePageIdentifier("Homepage")

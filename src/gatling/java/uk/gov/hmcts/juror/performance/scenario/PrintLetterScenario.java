@@ -34,7 +34,7 @@ public class PrintLetterScenario {
                 .formParam("letterType", letterType)
                 .formParam("_csrf", "#{csrf}")
                 //Post code does not auto redirect this is done via JS so page should be the same
-                .check(Util.validatePageIdentifier("juror record - overview"))
+                .check(Util.validatePageIdentifier("Juror record - Overview"))
                 .check(substring(overviewSubStringCheck)))
             .orElse(http(titlePrefix + " - Print letters - Yes")
                     .post("/juror-management/juror/#{juror_number}/update/"+letterTypeUrl+"/letter")
@@ -43,12 +43,12 @@ public class PrintLetterScenario {
                     .formParam("letterType", letterType)
                     .formParam("_csrf", "#{csrf}")
                     //Post code does not auto redirect this is done via JS so page should be the same
-                    .check(Util.validatePageIdentifier(pageIdentifer + " - redirect to print flow")),
+                    .check(Util.validatePageIdentifier(pageIdentifer + " - Redirect to print flow")),
                 //Get overview page and check for deferral granted
                 http("GET - juror record overview")
                     .get("/juror-management/record/#{juror_number}/overview")
                     .headers(Util.COMMON_HEADERS)
-                    .check(Util.validatePageIdentifier("juror record - overview"))
+                    .check(Util.validatePageIdentifier("Juror record - Overview"))
                     .check(substring(overviewSubStringCheck))
             ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS));
     }

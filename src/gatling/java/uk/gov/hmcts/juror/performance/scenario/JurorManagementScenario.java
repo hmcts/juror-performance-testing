@@ -21,7 +21,7 @@ public class JurorManagementScenario {
                     http("GET - Juror Management - Manage Jurors")
                         .get("/juror-management/manage-jurors/pools")
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("juror-management - manage jurors"))
+                        .check(Util.validatePageIdentifier("Juror management - Manage jurors"))
                         .check(status().is(200))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
@@ -46,7 +46,7 @@ public class JurorManagementScenario {
                         .get("/juror-management/attendance")
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.saveCsrf())
-                        .check(Util.validatePageIdentifier("juror-management - attendance"))
+                        .check(Util.validatePageIdentifier("Juror management - Attendance"))
                         .check(status().is(200))
                         .check(Util.saveCsrf())
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
@@ -78,7 +78,7 @@ public class JurorManagementScenario {
                         .formParam("checkOutTimePeriod", "pm")
                         .formParam("_csrf", "#{csrf}")
                         .check(Util.saveCsrf())
-                        .check(Util.validatePageIdentifier("juror-management - attendance"))
+                        .check(Util.validatePageIdentifier("Juror management - Attendance"))
                         .check(status().is(200))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );

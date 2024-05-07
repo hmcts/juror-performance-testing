@@ -25,7 +25,7 @@ public class YourWorkScenario {
                     http("GET - Your work - to do")
                         .get(TODO_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("your work - to do"))
+                        .check(Util.validatePageIdentifier("Your work - To do"))
                 )
             ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS));
     }
@@ -38,7 +38,7 @@ public class YourWorkScenario {
                     http("GET - Your work - awaiting information")
                         .get(AWAITING_INFORMATION_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("your work - awaiting information"))
+                        .check(Util.validatePageIdentifier("Your work - Awaiting information"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
 
             );
@@ -52,7 +52,7 @@ public class YourWorkScenario {
                     http("GET - Your work - completed")
                         .get(COMPLETED_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("your work - completed"))
+                        .check(Util.validatePageIdentifier("Your work - Completed"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }

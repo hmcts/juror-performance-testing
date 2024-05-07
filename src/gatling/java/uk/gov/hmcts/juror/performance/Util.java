@@ -92,9 +92,6 @@ public class Util {
 
     public static ChainBuilder printSessionVariables() {
         return exec(session -> {
-            if (!Config.DEBUG) {
-                return session;
-            }
             try {
                 count++;
                 log.info(count + " Session variables: " + session);

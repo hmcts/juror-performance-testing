@@ -76,7 +76,7 @@ public class JurorRecordDeferralScenario {
                             .formParam("jurorNumber", "#{juror_number}")
                             .formParam("_csrf", "#{csrf}")
                             .formParam("version", "")
-                            .check(Util.validatePageIdentifier("juror record - overview"))
+                            .check(Util.validatePageIdentifier("Juror record - Overview"))
                             .check(substring("Deferral refused"))
                     ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
