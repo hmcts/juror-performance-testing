@@ -187,8 +187,7 @@ public class Feeders {
 
     public static FeederBuilder<Object> jdbcFeeder(String sql) {
         log.info(
-            "Creating jdbcFeeder: " + Config.DB_URL + ", " + Config.DB_USERNAME + ", " + Config.DB_PASSWORD + ", "
-                + sql);
+            "Creating jdbcFeeder: " + Config.DB_URL + ", " + Config.DB_USERNAME + ", " + sql);
 
         return JdbcDsl.jdbcFeeder(Config.DB_URL, Config.DB_USERNAME, Config.DB_PASSWORD, sql);
     }
