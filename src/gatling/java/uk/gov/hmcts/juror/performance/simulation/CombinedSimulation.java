@@ -52,7 +52,7 @@ public class CombinedSimulation extends BaseSimulation {
                  ExcusalSimulation.getCourtScenarioBuilderStatic(perUnitTime(13, TimeUnit.HOURS))
                      .injectClosed(
                          simulationProfileClosed(20)
-                             .toArray(new ClosedInjectionStep[0])),
+                             .toArray(new ClosedInjectionStep[0]))
 //                //postponements  9 by 2 per hour (9 per hour per user)
                 // PostponeSimulation.getScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
                 //     .injectClosed(
