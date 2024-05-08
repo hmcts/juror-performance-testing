@@ -113,7 +113,6 @@ public class Feeders {
         OWNER_LIST = Feeders.jdbcFeederCached("select distinct * from juror_mod.user_courts uc "
                 + "join juror_mod.users u on u.username = uc.username "
                 + "where u.user_type <> 'ADMINISTRATOR'")
-            .random()
             .readRecords()
             .stream()
             .map(stringObjectMap -> String.valueOf(stringObjectMap.get("loc_code")))
@@ -127,7 +126,6 @@ public class Feeders {
                         + ".username"
                         + " and uc.loc_code = '" + owner + "')"
                         + " and u.user_type <> 'ADMINISTRATOR'")
-                    .random()
                     .readRecords()
                     .stream()
                     .map(stringObjectMap -> String.valueOf(stringObjectMap.get("username")))
@@ -145,14 +143,14 @@ public class Feeders {
                 "K", "D", "S", "F", "P", "R", "C", "W", "M", "T", "A", "O", "B", "L", "Y", "X", "G",
                 "Z", "J", "I", "N", "PE", "CE", "DC"));
 
-        OWNER_FEEDER = listFeeder("owner", OWNER_LIST.stream().toList()).random();
+        OWNER_FEEDER = listFeeder("owner", OWNER_LIST.stream().toList());
 
 
         OWNER_FEEDER_COURT = listFeeder("owner", OWNER_LIST.stream().filter(
-            string -> !string.equals("400")).toList()).random();
+            string -> !string.equals("400")).toList());
 
         OWNER_FEEDER_BUREAU = listFeeder("owner", OWNER_LIST.stream().filter(
-            string -> string.equals("400")).toList()).random();
+            string -> string.equals("400")).toList());
 
 
         JUROR_NUMBER_REPLY_TYPE_BUREAU_FEEDER = new FeederGenerator(
