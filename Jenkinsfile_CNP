@@ -39,6 +39,14 @@ withNightlyPipeline(type, product, component) {
   enablePerformanceTest()
 
   after('performanceTest') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/gatling/**/*'
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/gatling/*",
+      reportFiles          : "index.html",
+      reportName           : "Combined Simulation Performance Test Report"
+    ]
   }
 }
