@@ -44,15 +44,15 @@ public class CombinedSimulation extends BaseSimulation {
                 //         simulationProfileClosed(20)
                 //             .toArray(new ClosedInjectionStep[0])),
 //                //deferrals - court -- 180 by 20 per hour (9 per hour per user)
-                // DeferralSimulation.getCourtScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
-                //     .injectClosed(
-                //         simulationProfileClosed(20)
-                //             .toArray(new ClosedInjectionStep[0])),
+                 DeferralSimulation.getCourtScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
+                     .injectClosed(
+                         simulationProfileClosed(20)
+                             .toArray(new ClosedInjectionStep[0])),
 //                //excusal - court -- 250 by 20 per hour (12.5 per hour per user)
-                // ExcusalSimulation.getCourtScenarioBuilderStatic(perUnitTime(13, TimeUnit.HOURS))
-                //     .injectClosed(
-                //         simulationProfileClosed(20)
-                //             .toArray(new ClosedInjectionStep[0])),
+                 ExcusalSimulation.getCourtScenarioBuilderStatic(perUnitTime(13, TimeUnit.HOURS))
+                     .injectClosed(
+                         simulationProfileClosed(20)
+                             .toArray(new ClosedInjectionStep[0])),
 //                //postponements  9 by 2 per hour (9 per hour per user)
                 // PostponeSimulation.getScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
                 //     .injectClosed(
