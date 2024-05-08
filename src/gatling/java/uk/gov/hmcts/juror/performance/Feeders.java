@@ -147,10 +147,10 @@ public class Feeders {
 
 
         OWNER_FEEDER_COURT = listFeeder("owner", OWNER_LIST.stream().filter(
-            string -> !string.equals("400")).toList());
+            string -> !string.equals("400")).toList()).random();
 
         OWNER_FEEDER_BUREAU = listFeeder("owner", OWNER_LIST.stream().filter(
-            string -> string.equals("400")).toList());
+            string -> string.equals("400")).toList()).random();;
 
 
         JUROR_NUMBER_REPLY_TYPE_BUREAU_FEEDER = new FeederGenerator(
