@@ -93,6 +93,6 @@ public final class LoginScenario {
     public static ChainBuilder login() {
         String getScenarioId = Util.getNewScenarioId();
         String postScenarioId = Util.getNewScenarioId();
-        return Util.isBureau(loginAsBureau(getScenarioId, postScenarioId), loginAsCourt(getScenarioId, postScenarioId));
+        return Util.isBureau(loginAsBureau(getScenarioId, postScenarioId), loginAsCourt(getScenarioId, postScenarioId)).exitHereIfFailed();
     }
 }
