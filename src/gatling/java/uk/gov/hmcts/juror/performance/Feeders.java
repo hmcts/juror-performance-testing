@@ -36,8 +36,7 @@ public class Feeders {
         if (!JUROR_NUMBER_FEEDER_BY_OWNER_MAP.containsKey(key)) {
             JUROR_NUMBER_FEEDER_BY_OWNER_MAP.put(key, new FeederGenerator(
                 jdbcFeeder("select juror_number from juror_mod.juror_pool where owner = '" + owner + "'"
-                    + " and status = " + number)
-                    .random(),
+                    + " and status = " + number),
                 "juror_number"));
         }
         return JUROR_NUMBER_FEEDER_BY_OWNER_MAP.get(key);
@@ -141,17 +140,15 @@ public class Feeders {
         EXCUSAL_CODE_FEEDER =
             listFeeder("exc_code", List.of(
                 "K", "D", "S", "F", "P", "R", "C", "W", "M", "T", "A", "O", "B", "L", "Y", "X", "G",
-                "Z", "J", "I", "N", "PE", "CE", "DC"));
+                "Z", "J", "I", "N", "PE", "CE", "DC")).random();
 
-        OWNER_FEEDER = listFeeder("owner", OWNER_LIST.stream().toList());
-
+        OWNER_FEEDER = listFeeder("owner", OWNER_LIST.stream().toList()).random();
 
         OWNER_FEEDER_COURT = listFeeder("owner", OWNER_LIST.stream().filter(
             string -> !string.equals("400")).toList()).random();
 
         OWNER_FEEDER_BUREAU = listFeeder("owner", OWNER_LIST.stream().filter(
             string -> string.equals("400")).toList()).random();;
-
 
         JUROR_NUMBER_REPLY_TYPE_BUREAU_FEEDER = new FeederGenerator(
             jdbcFeeder(

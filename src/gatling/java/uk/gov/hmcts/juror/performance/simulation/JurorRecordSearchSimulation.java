@@ -28,8 +28,7 @@ public class JurorRecordSearchSimulation extends AbstractJurorSimulation {
                     .exec(session -> {
                         String owner = session.getString("owner");
                         FeederGenerator feederGenerator = new FeederGenerator(
-                            jdbcFeeder("select juror_number from juror_mod.juror_pool where owner = '" + owner + "'")
-                                .random(),
+                            jdbcFeeder("select juror_number from juror_mod.juror_pool where owner = '" + owner + "'"),
                             "juror_number");
                         return session.set("juror_number_gen", feederGenerator);
                     })
