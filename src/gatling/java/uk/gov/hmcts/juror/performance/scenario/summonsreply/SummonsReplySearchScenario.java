@@ -25,7 +25,7 @@ public class SummonsReplySearchScenario {
                     http("GET - Search")
                         .get(SEARCH_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("search"))
+                        .check(Util.validatePageIdentifier("Search"))
                         .check(Util.saveCsrf())
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
@@ -70,7 +70,7 @@ public class SummonsReplySearchScenario {
                         .formParam("pool_number", "#{search_pool_number}")
                         .formParam("_csrf", "#{csrf}")
                         .check(status().is(200))
-                        .check(Util.validatePageIdentifier("search"))
+                        .check(Util.validatePageIdentifier("Search"))
                         //Checks the no results found box is hidden
                         .check(css("#noResultsMsg.u-hide").exists())
                         //Checks I can see results

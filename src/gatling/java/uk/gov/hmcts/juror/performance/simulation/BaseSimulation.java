@@ -20,13 +20,12 @@ public class BaseSimulation extends Simulation {
 
     protected void addAssertions(SetUp setUp) {
         setUp.protocols(httpProtocol)
-        //TODO re-enable assertions
-//            .assertions(
-//                //No failed requests
-//                global().failedRequests().count().is(0L),
-//                //95% of requests should respond within 500ms
-//                global().responseTime().percentile3().lte(1500)//TODO confirm
-//            )
+            .assertions(
+                //No failed requests
+                global().failedRequests().count().is(0L),
+                //95% of requests should respond within 500ms
+                global().responseTime().percentile3().lte(1500)
+            )
         ;
     }
 }
