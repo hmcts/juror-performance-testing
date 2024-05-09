@@ -7,7 +7,7 @@ properties([
   ])
 ])
 
-@Library("Infrastructure")
+@Library("Infrastructure") 
 
 def type = "java"
 def product = "juror"
@@ -37,9 +37,9 @@ withNightlyPipeline(type, product, component) {
   env.DEBUG = "false"
 
   loadVaultSecrets(secrets)
-  enablePerformanceTest()
+  enablePerformanceTest(90)
 
-  after('performanceTest') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  afterFailure('performanceTest') {
+    publishPerformanceReports()
   }
 }
