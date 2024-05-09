@@ -37,4 +37,8 @@ withNightlyPipeline(type, product, component) {
 
   loadVaultSecrets(secrets)
   enablePerformanceTest(90)
+
+  afterFailure('Performance test') {
+    publishPerformanceReports()
+  }
 }
