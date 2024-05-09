@@ -1,7 +1,6 @@
 package uk.gov.hmcts.juror.performance.simulation;
 
 import io.gatling.javaapi.core.ClosedInjectionStep;
-import io.gatling.javaapi.core.CoreDsl;
 
 import java.time.Duration;
 import java.util.List;
@@ -29,10 +28,10 @@ public class CombinedSimulation extends BaseSimulation {
                         simulationProfileClosed(20, Duration.ofSeconds(0))
                             .toArray(new ClosedInjectionStep[0])),
 //                //Summons reply search -- 200 by 20 per hour (10 per hour per user)
-                SummonsReplySearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
-                    .injectClosed(
-                        simulationProfileClosed(20, Duration.ofSeconds(10))
-                            .toArray(new ClosedInjectionStep[0])),
+//                SummonsReplySearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
+//                    .injectClosed(
+//                        simulationProfileClosed(20, Duration.ofSeconds(10))
+//                            .toArray(new ClosedInjectionStep[0])),
 //                //Check in & Bulk checkout -- 333 by 20 per hour (17 per hour per user) -- 12 Jurors Per
                 RecordAttendanceSimulation.getScenarioBuilderStatic(perUnitTime(17, TimeUnit.HOURS))
                     .injectClosed(
@@ -40,10 +39,10 @@ public class CombinedSimulation extends BaseSimulation {
                             .toArray(new ClosedInjectionStep[0])),
 //                // transaction
 //                //your work 180 by 20 per hour (9 per hour per user)
-                YourWorkSimulation.getScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
-                    .injectClosed(
-                        simulationProfileClosed(20, Duration.ofSeconds(30))
-                            .toArray(new ClosedInjectionStep[0])),
+//                YourWorkSimulation.getScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
+//                    .injectClosed(
+//                        simulationProfileClosed(20, Duration.ofSeconds(30))
+//                            .toArray(new ClosedInjectionStep[0])),
 //                //deferrals - court -- 180 by 20 per hour (9 per hour per user)
                 DeferralSimulation.getCourtScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
                     .injectClosed(

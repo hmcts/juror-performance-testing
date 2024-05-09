@@ -8,7 +8,7 @@ import uk.gov.hmcts.juror.performance.scenario.summonsreply.SummonsReplySearchSc
 
 import java.time.Duration;
 
-import static io.gatling.javaapi.core.CoreDsl.exec;
+import static io.gatling.javaapi.core.CoreDsl.feed;
 import static io.gatling.javaapi.core.CoreDsl.pace;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 import static io.gatling.javaapi.core.CoreDsl.uniformRandomSwitch;
@@ -19,7 +19,7 @@ public class SummonsReplySearchSimulation {
         Util.resetCounter();
         return scenario("Summons Reply Search")
             .group("Summons Reply Search").on(
-                exec(session -> session.set("owner", "400"))
+                feed(Feeders.OWNER_FEEDER_BUREAU)
                     .exec(LoginScenario.login())
                     .forever().on(
                         pace(Duration.ofSeconds(secondsPerTransaction))
