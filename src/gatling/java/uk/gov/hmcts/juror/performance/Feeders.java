@@ -36,7 +36,7 @@ public class Feeders {
         if (!JUROR_NUMBER_FEEDER_BY_OWNER_MAP.containsKey(key)) {
             JUROR_NUMBER_FEEDER_BY_OWNER_MAP.put(key, new FeederGenerator(
                 jdbcFeeder("select juror_number from juror_mod.juror_pool where owner = '" + owner + "'"
-                    + " and status = " + number),
+                    + " and status = " + number + " and juror_number::decimal < 300000000"),
                 "juror_number"));
         }
         return JUROR_NUMBER_FEEDER_BY_OWNER_MAP.get(key);
@@ -51,7 +51,8 @@ public class Feeders {
                     + "where a.loc_code in (select loc_code from juror_mod.court_location cl where cl.owner = '" + owner
                     + "') "
                     + "and a.appearance_stage = 'EXPENSE_ENTERED' "
-                    + "and a.is_draft_expense = true")
+                    + "and a.is_draft_expense = true"
+                    + " and juror_number::decimal < 300000000")
                     .queue(),
                 "juror_number", "attendance_date", "loc_code"));
         }
@@ -107,7 +108,7 @@ public class Feeders {
         JUROR_NUMBER_RESPONSE_FEEDER =
             jdbcFeeder("select jr.juror_number, jr.last_name, jp.pool_number"
                 + " from juror_mod.juror_response jr join juror_mod.juror_pool jp on jr.juror_number = jp"
-                + ".juror_number").random();
+                + ".juror_number where jp.juror_number::decimal < 300000000").random();
 
         OWNER_LIST = Feeders.jdbcFeederCached("select distinct * from juror_mod.user_courts uc "
                 + "join juror_mod.users u on u.username = uc.username "
@@ -148,15 +149,25 @@ public class Feeders {
             string -> !string.equals("400")).toList()).random();
 
         OWNER_FEEDER_BUREAU = listFeeder("owner", OWNER_LIST.stream().filter(
-            string -> string.equals("400")).toList()).random();;
+            string -> string.equals("400")).toList()).random();
+        ;
 
         JUROR_NUMBER_REPLY_TYPE_BUREAU_FEEDER = new FeederGenerator(
             jdbcFeeder(
                 "select jp.juror_number as juror_number, jr.reply_type as reply_type from juror_mod"
                     + ".juror_pool jp"
                     + " join juror_mod.juror_response jr on jr.juror_number = jp.juror_number"
-                    + " where jp.owner = '400' and jp.status = 2")
+                    + " where jp.status = 2"
+                    + " and jp.juror_number::decimal < 300000000")
                 .random(), "juror_number", "reply_type");
+
+
+        OWNER_LIST
+            .stream()
+            .filter(s -> !s.equalsIgnoreCase("400"))
+            .forEach(s -> {
+                getOrCreateByOwnerAndStatus(s,"2");
+            });
     }
 
     private static List<Choice.WithKey> toChoiceList(Map<String, FeederBuilder<Object>> map) {
