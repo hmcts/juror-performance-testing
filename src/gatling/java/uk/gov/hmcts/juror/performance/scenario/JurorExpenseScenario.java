@@ -26,7 +26,7 @@ public class JurorExpenseScenario {
                     http("GET - Juror Record - Expenses - draft")
                         .get(BASE_URL + "/draft")
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("juror-management - unpaid attendance - expense record"))
+                        .check(Util.validatePageIdentifier("Juror management - Unpaid attendance - Expense record"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
@@ -41,7 +41,7 @@ public class JurorExpenseScenario {
                         .queryParam("page", "1")
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.saveCsrf())
-                        .check(Util.validatePageIdentifier("juror-management - unpaid attendance - daily expenses"))
+                        .check(Util.validatePageIdentifier("Juror management - Unpaid attendance - Daily expenses"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
@@ -79,7 +79,7 @@ public class JurorExpenseScenario {
                         .formParam("total", "")
                         .formParam("_csrf", "#{csrf}")
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("juror-management - unpaid attendance - expense record"))
+                        .check(Util.validatePageIdentifier("Juror management - Unpaid attendance - Expense record"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }

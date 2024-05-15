@@ -51,7 +51,7 @@ public final class JurorRecordScenario {
                     http("GET - Juror Record - Expenses")
                         .get(BASE_URL + "/expenses")
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("juror record - expenses"))
+                        .check(Util.validatePageIdentifier("Juror record - Expenses"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }

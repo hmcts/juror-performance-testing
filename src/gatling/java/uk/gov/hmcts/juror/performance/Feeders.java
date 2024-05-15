@@ -52,7 +52,7 @@ public class Feeders {
                     + "') "
                     + "and a.appearance_stage = 'EXPENSE_ENTERED' "
                     + "and a.is_draft_expense = true"
-                    + " and juror_number::decimal < 300000000")
+                    + " and a.juror_number::decimal < 300000000")
                     .queue(),
                 "juror_number", "attendance_date", "loc_code"));
         }

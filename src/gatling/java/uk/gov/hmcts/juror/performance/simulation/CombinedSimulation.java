@@ -57,14 +57,13 @@ public class CombinedSimulation extends BaseSimulation {
                 PostponeSimulation.getScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
                     .injectClosed(
                         simulationProfileClosed(2, Duration.ofSeconds(30))
-                            .toArray(new ClosedInjectionStep[0]))
+                            .toArray(new ClosedInjectionStep[0])),
                 //TODO utilization report (90 courts @ 2 per court per month) (2 per hour per user - 20 users)
                 //Expenses -- 333 by 20 per hour (17 per hour per user) -- 12 Jurors Per
-                //TODO Requires data
-//                ExpenseSimulation.getScenarioBuilderStatic(perUnitTime(17, TimeUnit.HOURS))
-//                    .injectClosed(
-//                        simulationProfileClosed(20, Duration.ofSeconds(35))
-//                            .toArray(new ClosedInjectionStep[0]))
+                ExpenseSimulation.getScenarioBuilderStatic(perUnitTime(17, TimeUnit.HOURS))
+                    .injectClosed(
+                        simulationProfileClosed(20, Duration.ofSeconds(35))
+                            .toArray(new ClosedInjectionStep[0]))
 
             ).maxDuration(Duration.ofSeconds(TOTAL_TEST_TIME_SECONDS + (RAMP_TIME_SECONDS * 2)))
         );
