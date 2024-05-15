@@ -35,8 +35,16 @@ public class Feeders {
         final String key = owner + "-" + number;
         if (!JUROR_NUMBER_FEEDER_BY_OWNER_MAP.containsKey(key)) {
             JUROR_NUMBER_FEEDER_BY_OWNER_MAP.put(key, new FeederGenerator(
-                jdbcFeeder("select juror_number from juror_mod.juror_pool where owner = '" + owner + "'"
-                    + " and status = " + number + " and juror_number::decimal < 300000000"),
+//                jdbcFeeder("select juror_number from juror_mod.juror_pool "
+//                    + "left join juror_mod.appearance a on a.juror_num"
+//                    + "where owner = '" + owner + "'"
+//                    + " and status = " + number + " and juror_number::decimal < 300000000"),
+                jdbcFeeder("select distinct jp.juror_number from juror_mod.juror_pool jp "
+                    + "left join juror_mod.appearance a "
+                    + "on a.juror_number = jp.juror_number and a.attendance_date = current_date "
+                    + "where owner = '" + owner + "' "
+                    + "and a.juror_number is null "
+                    + "and status = " + number + " and juror_number::decimal < 300000000"),
                 "juror_number"));
         }
         return JUROR_NUMBER_FEEDER_BY_OWNER_MAP.get(key);
@@ -166,7 +174,7 @@ public class Feeders {
             .stream()
             .filter(s -> !s.equalsIgnoreCase("400"))
             .forEach(s -> {
-                getOrCreateByOwnerAndStatus(s,"2");
+                getOrCreateByOwnerAndStatus(s, "2");
             });
     }
 
