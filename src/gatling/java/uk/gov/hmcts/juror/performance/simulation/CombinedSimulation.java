@@ -23,10 +23,10 @@ public class CombinedSimulation extends BaseSimulation {
         addAssertions(
             setUp(
                 //Juror Record Search  -- 200 by 20 per hour (10 per hour per user)
-                JurorRecordSearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
-                    .injectClosed(
-                        simulationProfileClosed(20, Duration.ofSeconds(0))
-                            .toArray(new ClosedInjectionStep[0]))
+//                JurorRecordSearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
+//                    .injectClosed(
+//                        simulationProfileClosed(20, Duration.ofSeconds(0))
+//                            .toArray(new ClosedInjectionStep[0]))
 //                //Summons reply search -- 200 by 20 per hour (10 per hour per user)
 //                SummonsReplySearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
 //                    .injectClosed(
@@ -44,10 +44,10 @@ public class CombinedSimulation extends BaseSimulation {
 //                        simulationProfileClosed(20, Duration.ofSeconds(15))
 //                            .toArray(new ClosedInjectionStep[0])),
 ////                //deferrals - court -- 180 by 20 per hour (9 per hour per user)
-//                DeferralSimulation.getCourtScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
-//                    .injectClosed(
-//                        simulationProfileClosed(20, Duration.ofSeconds(20))
-//                            .toArray(new ClosedInjectionStep[0])),
+                DeferralSimulation.getCourtScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
+                    .injectClosed(
+                        simulationProfileClosed(20, Duration.ofSeconds(20))
+                            .toArray(new ClosedInjectionStep[0]))
 ////                //excusal - court -- 250 by 20 per hour (12.5 per hour per user)
 //                ExcusalSimulation.getCourtScenarioBuilderStatic(perUnitTime(13, TimeUnit.HOURS))
 //                    .injectClosed(
