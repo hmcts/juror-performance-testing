@@ -23,15 +23,15 @@ public class CombinedSimulation extends BaseSimulation {
         addAssertions(
             setUp(
                 //Juror Record Search  -- 200 by 20 per hour (10 per hour per user)
-                JurorRecordSearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
-                    .injectClosed(
-                        simulationProfileClosed(20, Duration.ofSeconds(0))
-                            .toArray(new ClosedInjectionStep[0]))
-//                //Summons reply search -- 200 by 20 per hour (10 per hour per user)
-//                SummonsReplySearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
+//                JurorRecordSearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
 //                    .injectClosed(
-//                        simulationProfileClosed(20, Duration.ofSeconds(5))
-//                            .toArray(new ClosedInjectionStep[0])),
+//                        simulationProfileClosed(20, Duration.ofSeconds(0))
+//                            .toArray(new ClosedInjectionStep[0]))
+//                //Summons reply search -- 200 by 20 per hour (10 per hour per user)
+                SummonsReplySearchSimulation.getScenarioBuilderStatic(perUnitTime(10, TimeUnit.HOURS))
+                    .injectClosed(
+                        simulationProfileClosed(20, Duration.ofSeconds(5))
+                            .toArray(new ClosedInjectionStep[0]))
 //////                //Check in & Bulk checkout -- 333 by 20 per hour (17 per hour per user) -- 12 Jurors Per
 //                RecordAttendanceSimulation.getScenarioBuilderStatic(perUnitTime(17, TimeUnit.HOURS))
 //                    .injectClosed(
@@ -75,6 +75,7 @@ public class CombinedSimulation extends BaseSimulation {
 
 
     private List<ClosedInjectionStep> simulationProfileClosed(int users, Duration delayStart) {
+        delayStart = Duration.ofSeconds(0);//TODO remove
         return List.of(
             constantConcurrentUsers(0).during(delayStart),
             rampConcurrentUsers(0).to(users)
