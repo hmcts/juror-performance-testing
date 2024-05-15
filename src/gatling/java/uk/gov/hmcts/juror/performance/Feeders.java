@@ -39,12 +39,12 @@ public class Feeders {
 //                    + "left join juror_mod.appearance a on a.juror_num"
 //                    + "where owner = '" + owner + "'"
 //                    + " and status = " + number + " and juror_number::decimal < 300000000"),
-                jdbcFeeder("select distinct jp.juror_number from juror_mod.juror_pool jp "
+                jdbcFeeder("select distinct jp.juror_number as juror_number from juror_mod.juror_pool jp "
                     + "left join juror_mod.appearance a "
                     + "on a.juror_number = jp.juror_number and a.attendance_date = current_date "
                     + "where owner = '" + owner + "' "
                     + "and a.juror_number is null "
-                    + "and status = " + number + " and juror_number::decimal < 300000000"),
+                    + "and jp.status = " + number + " and jp.juror_number::decimal < 300000000"),
                 "juror_number"));
         }
         return JUROR_NUMBER_FEEDER_BY_OWNER_MAP.get(key);
