@@ -40,12 +40,13 @@ public class Feeders {
 //                    + "where owner = '" + owner + "'"
 //                    + " and status = " + number + " and juror_number::decimal < 300000000"),
                 jdbcFeeder("select distinct jp.juror_number as juror_number from juror_mod.juror_pool jp "
+                    + "join juror_mod.pool p on p.pool_no = jp.pool_number and p.loc_code = '" + owner + "' "
                     + "left join juror_mod.appearance a "
                     + "on a.juror_number = jp.juror_number and a.attendance_date = current_date "
-                    + "left join juror_mod.pool p on p.pool_no = jp.pool_number and p.loc_code = p.owner "
                     + "where jp.owner = '" + owner + "' "
+                    + "and p.loc_code = '" + owner + "' "
                     + "and a.juror_number is null "
-                    + "and jp.status = " + number + " and jp.juror_number::decimal < 300000000"),
+                    + "and jp.status = 2 and jp.juror_number::decimal < 300000000"),
                 "juror_number"));
         }
         return JUROR_NUMBER_FEEDER_BY_OWNER_MAP.get(key);
@@ -57,8 +58,7 @@ public class Feeders {
             JUROR_NUMBER_EXPENSE_FEEDER.put(owner, new FeederGenerator(
                 jdbcFeeder("select a.juror_number as juror_number, a.attendance_date as attendance_date,"
                     + " a.loc_code as loc_code from juror_mod.appearance a "
-                    + "where a.loc_code in (select loc_code from juror_mod.court_location cl where cl.owner = '" + owner
-                    + "') "
+                    + "where a.loc_code =  '" + owner + "') "
                     + "and a.appearance_stage = 'EXPENSE_ENTERED' "
                     + "and a.is_draft_expense = true"
                     + " and a.juror_number::decimal < 300000000")
