@@ -54,7 +54,7 @@ public class Feeders {
             JUROR_NUMBER_EXPENSE_FEEDER.put(owner, new FeederGenerator(
                 jdbcFeeder("select a.juror_number as juror_number, a.attendance_date as attendance_date,"
                     + " a.loc_code as loc_code from juror_mod.appearance a "
-                    + "where a.loc_code =  '" + owner + "') "
+                    + "where a.loc_code =  '" + owner + "' "
                     + "and a.appearance_stage = 'EXPENSE_ENTERED' "
                     + "and a.is_draft_expense = true"
                     + " and a.juror_number::decimal < 300000000")
