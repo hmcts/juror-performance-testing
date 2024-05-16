@@ -43,7 +43,7 @@ public class Feeders {
                     + "left join juror_mod.appearance a "
                     + "on a.juror_number = jp.juror_number and a.attendance_date = current_date "
                     + "left join juror_mod.pool p on p.pool_no = jp.pool_number and p.loc_code = p.owner"
-                    + "where owner = '" + owner + "' "
+                    + "where jp.owner = '" + owner + "' "
                     + "and a.juror_number is null "
                     + "and jp.status = " + number + " and jp.juror_number::decimal < 300000000"),
                 "juror_number"));
