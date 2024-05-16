@@ -35,10 +35,6 @@ public class Feeders {
         final String key = owner + "-" + number;
         if (!JUROR_NUMBER_FEEDER_BY_OWNER_MAP.containsKey(key)) {
             JUROR_NUMBER_FEEDER_BY_OWNER_MAP.put(key, new FeederGenerator(
-//                jdbcFeeder("select juror_number from juror_mod.juror_pool "
-//                    + "left join juror_mod.appearance a on a.juror_num"
-//                    + "where owner = '" + owner + "'"
-//                    + " and status = " + number + " and juror_number::decimal < 300000000"),
                 jdbcFeeder("select distinct jp.juror_number as juror_number from juror_mod.juror_pool jp "
                     + "join juror_mod.pool p on p.pool_no = jp.pool_number and p.loc_code = '" + owner + "' "
                     + "left join juror_mod.appearance a "
@@ -46,7 +42,7 @@ public class Feeders {
                     + "where jp.owner = '" + owner + "' "
                     + "and p.loc_code = '" + owner + "' "
                     + "and a.juror_number is null "
-                    + "and jp.status = 2 and jp.juror_number::decimal < 300000000"),
+                    + "and jp.status = " + number + " and jp.juror_number::decimal < 300000000"),
                 "juror_number"));
         }
         return JUROR_NUMBER_FEEDER_BY_OWNER_MAP.get(key);
@@ -121,6 +117,7 @@ public class Feeders {
 
         OWNER_LIST = Feeders.jdbcFeederCached("select distinct * from juror_mod.user_courts uc "
                 + "join juror_mod.users u on u.username = uc.username "
+                + "join juror_mod.court_location cl on cl.owner = cl.loc_code "
                 + "where u.user_type <> 'ADMINISTRATOR'")
             .readRecords()
             .stream()
