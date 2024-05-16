@@ -49,15 +49,15 @@ public class CombinedSimulation extends BaseSimulation {
 //                        simulationProfileClosed(20, Duration.ofSeconds(20))
 //                            .toArray(new ClosedInjectionStep[0])),
 //////                //excusal - court -- 250 by 20 per hour (12.5 per hour per user)
-                ExcusalSimulation.getCourtScenarioBuilderStatic(perUnitTime(13, TimeUnit.HOURS))
-                    .injectClosed(
-                        simulationProfileClosed(20, Duration.ofSeconds(25))
-                            .toArray(new ClosedInjectionStep[0]))
-//////                //postponements  9 by 2 per hour (9 per hour per user)
-//                PostponeSimulation.getScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
+//                ExcusalSimulation.getCourtScenarioBuilderStatic(perUnitTime(13, TimeUnit.HOURS))
 //                    .injectClosed(
-//                        simulationProfileClosed(2, Duration.ofSeconds(30))
+//                        simulationProfileClosed(20, Duration.ofSeconds(25))
 //                            .toArray(new ClosedInjectionStep[0])),
+//////                //postponements  9 by 2 per hour (9 per hour per user)
+                PostponeSimulation.getScenarioBuilderStatic(perUnitTime(9, TimeUnit.HOURS))
+                    .injectClosed(
+                        simulationProfileClosed(2, Duration.ofSeconds(30))
+                            .toArray(new ClosedInjectionStep[0]))
 ////                //TODO utilization report (90 courts @ 2 per court per month) (2 per hour per user - 20 users)
 ////                //Expenses -- 333 by 20 per hour (17 per hour per user) -- 12 Jurors Per
 //                ExpenseSimulation.getScenarioBuilderStatic(perUnitTime(17, TimeUnit.HOURS))
