@@ -117,7 +117,7 @@ public class Feeders {
 
         OWNER_LIST = Feeders.jdbcFeederCached("select distinct * from juror_mod.user_courts uc "
                 + "join juror_mod.users u on u.username = uc.username "
-                + "join juror_mod.court_location cl on cl.owner = cl.loc_code "
+                + "join juror_mod.court_location cl on cl.owner = cl.loc_code and uc.loc_code = cl.loc_code"
                 + "where u.user_type <> 'ADMINISTRATOR'")
             .readRecords()
             .stream()
