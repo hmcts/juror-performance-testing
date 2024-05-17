@@ -11,7 +11,7 @@ import static io.gatling.javaapi.core.CoreDsl.rampConcurrentUsers;
 
 public class CombinedSimulation extends BaseSimulation {
 
-    private final static int TOTAL_TEST_TIME_SECONDS = 3600; //Minus any ramp up/down time
+    private final static int TOTAL_TEST_TIME_SECONDS = 3600; //Minus any ramp up and down time
     private final static int RAMP_TIME_SECONDS = 300;
     private final static boolean IS_LOCAL = false;
 
