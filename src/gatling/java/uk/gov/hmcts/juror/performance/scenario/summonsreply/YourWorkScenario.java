@@ -19,7 +19,7 @@ public class YourWorkScenario {
 
     public static ChainBuilder getToDo() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - GET - To do")
+        return Util.group(scenarioId + GROUP_NAME + " - GET - To do")
             .on(
                 exec(
                     http("GET - Your work - to do")
@@ -32,7 +32,7 @@ public class YourWorkScenario {
 
     public static ChainBuilder getAwaitingInformation() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - GET - awaiting information")
+        return Util.group(scenarioId + GROUP_NAME + " - GET - awaiting information")
             .on(
                 exec(
                     http("GET - Your work - awaiting information")
@@ -46,7 +46,7 @@ public class YourWorkScenario {
 
     public static ChainBuilder getCompleted() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - GET - completed")
+        return Util.group(scenarioId + GROUP_NAME + " - GET - completed")
             .on(
                 exec(
                     http("GET - Your work - completed")

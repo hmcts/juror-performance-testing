@@ -20,7 +20,7 @@ public final class SummonsReplyScenario {
     }
 
     public static ChainBuilder getProcessReply() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Process Reply")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Process Reply")
             .on(exec(
                     http("GET - Summons Reply - Process Reply")
                         .get(BASE_URL + "/process")

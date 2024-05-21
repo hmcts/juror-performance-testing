@@ -28,7 +28,7 @@ public class JurorRecordDeferralScenario {
 
 
     public static ChainBuilder postDeferalGrant(String scenarioId) {
-        return group(scenarioId + GROUP_NAME + " - POST - GRANT")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - GRANT")
             .on(
                 feed(Feeders.DEFERAL_CODE_FEEDER).exec(
                         http("POST - Juror Record - Update Record - deferral - GRANT")
@@ -62,7 +62,7 @@ public class JurorRecordDeferralScenario {
     }
 
     public static ChainBuilder postDeferalRefuse(String scenarioId) {
-        return group(scenarioId + GROUP_NAME + " - POST - REFUSE")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - REFUSE")
             .on(
                 feed(Feeders.DEFERAL_CODE_FEEDER)
                     .exec(

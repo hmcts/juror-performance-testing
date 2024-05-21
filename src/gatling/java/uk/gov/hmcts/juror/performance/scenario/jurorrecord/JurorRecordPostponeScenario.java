@@ -19,7 +19,7 @@ public class JurorRecordPostponeScenario {
     private static final String BASE_URL = JurorRecordUpdateScenario.BASE_URL + "/postpone-date";
 
     public static ChainBuilder postPostponeDate() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - date")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - date")
             .on(
                 exec(session -> {
                     String minDate = session.getString("postponeNewServiceStartMinDateStr");

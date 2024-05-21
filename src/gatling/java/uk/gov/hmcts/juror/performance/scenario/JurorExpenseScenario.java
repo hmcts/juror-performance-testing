@@ -20,7 +20,7 @@ public class JurorExpenseScenario {
 
 
     public static ChainBuilder viewTotalInDraftExpenses() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft")
             .on(
                 exec(
                     http("GET - Juror Record - Expenses - draft")
@@ -32,7 +32,7 @@ public class JurorExpenseScenario {
     }
 
     public static ChainBuilder getAddDraftExpense() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft - day")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft - day")
             .on(
                 exec(
                     http("GET - Juror Record - Expenses - draft - day")
@@ -47,7 +47,7 @@ public class JurorExpenseScenario {
     }
 
     public static ChainBuilder postAddDraftExpenseSaveAndBack() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Expenses - Draft - day")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Expenses - Draft - day")
             .on(
                 exec(
                     http("POST - Juror Record - Expenses - draft - day")

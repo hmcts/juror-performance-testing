@@ -34,7 +34,7 @@ public final class SummonsReplyWhatToDoScenario {
         }
 
         public static ChainBuilder postExcusalRequest(String scenarioId) {
-            return group(scenarioId + GROUP_NAME + " - POST - Process Excusal Request")
+            return Util.group(scenarioId + GROUP_NAME + " - POST - Process Excusal Request")
                 .on(exec(
                         http("POST - Summons Reply - Process Excusal Request")
                             .post(BASE_URL + "/process")
@@ -52,7 +52,7 @@ public final class SummonsReplyWhatToDoScenario {
         }
 
         public static ChainBuilder postExcusalGrant(String scenarioId) {
-            return group(scenarioId + GROUP_NAME + " - POST - Excusal Request - GRANT")
+            return Util.group(scenarioId + GROUP_NAME + " - POST - Excusal Request - GRANT")
                 .on(feed(Feeders.EXCUSAL_CODE_FEEDER)
                     .exec(
                         http("POST - Summons Reply - Grant Excusal Request")
@@ -76,7 +76,7 @@ public final class SummonsReplyWhatToDoScenario {
         }
 
         public static ChainBuilder postExcusalRefuse(String scenarioId) {
-            return group(scenarioId + GROUP_NAME + " - POST - Excusal Request - REFUSE")
+            return Util.group(scenarioId + GROUP_NAME + " - POST - Excusal Request - REFUSE")
                 .on(feed(Feeders.EXCUSAL_CODE_FEEDER)
                     .exec(
                         http("POST - Summons Reply - Refuse Excusal Request")
@@ -99,7 +99,7 @@ public final class SummonsReplyWhatToDoScenario {
     public static class Deferral {
 
         public static ChainBuilder postDeferralRequest() {
-            return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Process Deferral Request")
+            return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Process Deferral Request")
                 .on(exec(
                         http("POST - Summons Reply - Process Deferral Request")
                             .post(BASE_URL + "/process")
@@ -117,7 +117,7 @@ public final class SummonsReplyWhatToDoScenario {
         }
 
         public static ChainBuilder getPostDeferralRequest(String scenarioId, int dateCount) {
-            return group(scenarioId + GROUP_NAME + " - POST - Summons Reply - Deferral Request - Dates -"
+            return Util.group(scenarioId + GROUP_NAME + " - POST - Summons Reply - Deferral Request - Dates -"
                 + " " + dateCount)
                 .on(
                     exec(
@@ -135,7 +135,7 @@ public final class SummonsReplyWhatToDoScenario {
         }
 
         public static ChainBuilder postDeferral() {
-            return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Deferral Request")
+            return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Deferral Request")
                 .on(feed(Feeders.DEFERAL_CODE_FEEDER)
                     .exec(
                         http("POST - Summons Reply - Deferral Request")

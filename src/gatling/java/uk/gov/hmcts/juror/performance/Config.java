@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import java.util.Optional;
 
 public class Config {
+    public static final boolean INCLUDE_GROUPS = false;
     public static final String BASE_URL;
     public static final TestType TEST_TYPE;
     public static final boolean DEBUG;
@@ -20,6 +21,7 @@ public class Config {
     public static final String DB_PASSWORD;
     public static final int REQUESTS_PER_SECOND;
     private static final double REQUESTS_PER_SECOND_PER_USER;
+
 
     static {
         BASE_URL = getProperty("BASE_URL", "http://0.0.0.0:3000");

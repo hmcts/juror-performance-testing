@@ -16,7 +16,7 @@ public class JurorManagementScenario {
 
 
     public static ChainBuilder getManageJurors() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Manage Jurors")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Manage Jurors")
             .on(exec(
                     http("GET - Juror Management - Manage Jurors")
                         .get("/juror-management/manage-jurors/pools")
@@ -28,7 +28,7 @@ public class JurorManagementScenario {
     }
 
     public static ChainBuilder getApproveJuror() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Approve Jurors")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Approve Jurors")
             .on(exec(
                     http("GET - Juror Management - Approve Jurors")
                         .get("/juror-management/manage-jurors/approve")
@@ -40,7 +40,7 @@ public class JurorManagementScenario {
     }
 
     public static ChainBuilder getRecordAttendance() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Record Attendance")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Record Attendance")
             .on(exec(
                     http("GET - Juror Management - Record Attendance")
                         .get("/juror-management/attendance")
@@ -54,7 +54,7 @@ public class JurorManagementScenario {
     }
 
     public static ChainBuilder checkInJuror() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Record Attendance - Check in")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Record Attendance - Check in")
             .on(exec(
                     http("POST - Juror Management - Record Attendance - Check in")
                         .post("/juror-management/attendance/check-in")
@@ -68,7 +68,7 @@ public class JurorManagementScenario {
     }
 
     public static ChainBuilder checkOutAllJurors() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Record Attendance - Check out all jurors")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Record Attendance - Check out all jurors")
             .on(exec(
                     http("POST - Juror Management - Record Attendance - Check out all jurors")
                         .post("/juror-management/attendance/check-out-all-jurors")

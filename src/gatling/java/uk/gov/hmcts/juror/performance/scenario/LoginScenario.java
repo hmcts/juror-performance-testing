@@ -24,7 +24,7 @@ public final class LoginScenario {
     }
 
     public static ChainBuilder getLoginScreen(String scenarioId) {
-        return group(scenarioId + GROUP_NAME + " - GET - Login Screen")
+        return Util.group(scenarioId + GROUP_NAME + " - GET - Login Screen")
             .on(
                 exec(
                     http("GET - Login Screen")
@@ -41,7 +41,7 @@ public final class LoginScenario {
     }
 
     public static ChainBuilder postLoginCourt(String scenarioId) {
-        return group(scenarioId + GROUP_NAME + " - POST - Login (Court)")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - Login (Court)")
             .on(exec(Feeders::getUser)
                 .exec(
                     http("POST - Login (Court)")
@@ -60,7 +60,7 @@ public final class LoginScenario {
     }
 
     public static ChainBuilder postLoginBureau(String scenarioId) {
-        return group(scenarioId + GROUP_NAME + " - POST - Login (Bureau)")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - Login (Bureau)")
             .on(exec(Feeders::getUser)
                 .exec(
                     http("POST - Login (Bureau)")

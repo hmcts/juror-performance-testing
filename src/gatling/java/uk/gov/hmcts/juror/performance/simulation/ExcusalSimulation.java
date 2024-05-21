@@ -90,7 +90,7 @@ public class ExcusalSimulation extends AbstractJurorSimulation {
 
     @Override
     protected ScenarioBuilder getScenario() {
-        ChainBuilder responded = group("Juror Record - RESPONDED").on(
+        ChainBuilder responded = Util.group("Juror Record - RESPONDED").on(
             feed(Feeders.JUROR_NUMBER_FEEDER_BY_STATUS_MAP.get("2")).exec(
                 LoginScenario.login(),
                 JurorRecordSearchScenario.jurorRecordSearch(),
@@ -105,7 +105,7 @@ public class ExcusalSimulation extends AbstractJurorSimulation {
             )
         );
         Util.resetCounter();
-        ChainBuilder summoned = group("Juror Record - SUMMONED").on(
+        ChainBuilder summoned = Util.group("Juror Record - SUMMONED").on(
             feed(Feeders.JUROR_NUMBER_FEEDER_BY_STATUS_MAP.get("1")).exec(
                 LoginScenario.login(),
                 JurorRecordSearchScenario.jurorRecordSearch(),

@@ -63,7 +63,7 @@ public class AvailablePoolsScenario {
     }
 
     public static ChainBuilder postPoolRequestInternal(String scenarioId, String name) {
-        return group(scenarioId + GROUP_NAME + " - POST - " + name)
+        return Util.group(scenarioId + GROUP_NAME + " - POST - " + name)
             .on(exec(
                     http("POST - Available pools - " + name)
                         .post(BASE_URL)

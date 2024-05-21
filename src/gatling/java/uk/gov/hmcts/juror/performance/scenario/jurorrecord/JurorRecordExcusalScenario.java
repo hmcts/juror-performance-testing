@@ -24,7 +24,7 @@ public class JurorRecordExcusalScenario {
     }
 
     public static ChainBuilder postExcusalGrant(String scenarioId) {
-        return group(scenarioId + GROUP_NAME + " - POST - GRANT")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - GRANT")
             .on(
                 feed(Feeders.EXCUSAL_CODE_FEEDER)
                     .exec(
@@ -52,7 +52,7 @@ public class JurorRecordExcusalScenario {
     }
 
     public static ChainBuilder postExcusalRefuse(String scenarioId) {
-        return group(scenarioId + GROUP_NAME + " - POST -  REFUSE")
+        return Util.group(scenarioId + GROUP_NAME + " - POST -  REFUSE")
             .on(
                 feed(Feeders.EXCUSAL_CODE_FEEDER)
                     .exec(

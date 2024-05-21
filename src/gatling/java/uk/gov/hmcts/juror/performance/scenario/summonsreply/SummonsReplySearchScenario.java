@@ -19,7 +19,7 @@ public class SummonsReplySearchScenario {
 
     public static ChainBuilder getSearch() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - POST - search")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - search")
             .on(
                 exec(
                     http("GET - Search")
@@ -60,7 +60,7 @@ public class SummonsReplySearchScenario {
 
     public static ChainBuilder postSearch(String suffix) {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - POST - search")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - search")
             .on(exec(
                     http("POST - Search - " + suffix)
                         .post(SEARCH_URL)

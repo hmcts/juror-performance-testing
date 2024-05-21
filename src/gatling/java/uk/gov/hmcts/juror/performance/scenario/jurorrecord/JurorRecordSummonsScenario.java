@@ -25,7 +25,7 @@ public final class JurorRecordSummonsScenario {
     }
 
     public static ChainBuilder getSummonsReplyPaper() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " GET - Paper")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " GET - Paper")
             .on(exec(
                     http("GET - Summons Reply - Paper")
                         .get(BASE_URL_PAPER)
@@ -36,7 +36,7 @@ public final class JurorRecordSummonsScenario {
     }
 
     public static ChainBuilder getSummonsReplyDigital() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " GET - Digital")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " GET - Digital")
             .on(exec(
                     http("GET - Summons Reply - Digital")
                         .get(BASE_URL_DIGITAL)

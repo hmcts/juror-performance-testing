@@ -1,8 +1,11 @@
 package uk.gov.hmcts.juror.performance;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.CheckBuilder;
 import io.gatling.javaapi.core.Session;
+import io.gatling.javaapi.core.exec.Executable;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.juror.support.generation.generators.value.LocalDateGeneratorImpl;
 
@@ -122,6 +125,24 @@ public class Util {
         return LocalDate.parse(postponeNewServiceStart,
                 DateTimeFormatter.ofPattern(fromPattern))
             .format(DateTimeFormatter.ofPattern(toPattern));
+    }
+
+
+    public static CustomGroup group(String name) {
+        return new CustomGroup(name);
+    }
+
+    @AllArgsConstructor
+    public static class CustomGroup {
+
+        private final String name;
+
+        public ChainBuilder on(@NonNull Executable executable, @NonNull Executable... executables) {
+            if (Config.INCLUDE_GROUPS) {
+                return Util.group(name).on(executable, executables);
+            }
+            return exec(executable, executables);
+        }
     }
 
 

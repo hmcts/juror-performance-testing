@@ -21,7 +21,7 @@ public final class JurorRecordScenario {
     }
 
     public static ChainBuilder getSummons() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Summons")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Summons")
             .on(
                 exec(
                     http("GET - Juror Record - Summons")
@@ -33,7 +33,7 @@ public final class JurorRecordScenario {
     }
 
     public static ChainBuilder getUpdateRecord() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Update Record")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Update Record")
             .on(
                 exec(
                     http("GET - Juror Record - Update Record")
@@ -45,7 +45,7 @@ public final class JurorRecordScenario {
     }
 
     public static Executable getExpenses() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses")
             .on(
                 exec(
                     http("GET - Juror Record - Expenses")

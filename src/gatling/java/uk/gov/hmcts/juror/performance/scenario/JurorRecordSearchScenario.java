@@ -19,7 +19,7 @@ public final class JurorRecordSearchScenario {
     }
 
     public static ChainBuilder jurorRecordSearch() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Juror Number Search")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Juror Number Search")
             .on(exec(
                     http("POST - Juror Number Search")
                         .post("/juror-record/search")

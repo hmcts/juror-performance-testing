@@ -24,7 +24,7 @@ public final class JurorRecordUpdateScenario {
     }
 
     public static ChainBuilder postUpdateRecordDeferral() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - deferral")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - deferral")
             .on(
                 exec(
                     http("POST - Juror Record - Update Record - deferral")
@@ -39,7 +39,7 @@ public final class JurorRecordUpdateScenario {
     }
 
     public static ChainBuilder postUpdateRecordExcusal() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - excusal")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - excusal")
             .on(
                 exec(
                     http("POST - Juror Record - Update Record - excusal")
@@ -55,7 +55,7 @@ public final class JurorRecordUpdateScenario {
     }
 
     public static ChainBuilder postUpdateRecordPostpone() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - postpone")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - postpone")
             .on(
                 exec(
                     http("POST - Juror Record - Update Record - postpone")
