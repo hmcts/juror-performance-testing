@@ -79,7 +79,7 @@ public abstract class AbstractJurorSimulation extends BaseSimulation {
                     );
                 }
             }
-            case PIPELINE -> List.of(rampUsers(Config.PIPELINE_USERS_PER_SECOND).during(Duration.ofMinutes(2)));
+            case PIPELINE, LOCAL -> List.of(rampUsers(Config.PIPELINE_USERS_PER_SECOND).during(Duration.ofMinutes(2)));
         };
     }
 

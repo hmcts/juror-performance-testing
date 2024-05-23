@@ -1,10 +1,14 @@
 package uk.gov.hmcts.juror.performance;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import uk.gov.hmcts.juror.performance.env.Environment;
 
 import java.util.Optional;
 
+@Slf4j
 public class Config {
+    public static final Environment ENV;
     public static final boolean INCLUDE_GROUPS = false;
     public static final String BASE_URL;
     public static final TestType TEST_TYPE;
@@ -24,12 +28,16 @@ public class Config {
 
 
     static {
+
         BASE_URL = getProperty("BASE_URL", "http://0.0.0.0:3000");
         TEST_TYPE =
-            TestType.valueOf(getProperty("TEST_URL", TestType.PERFORMANCE.name()));
+            TestType.valueOf(getProperty("TEST_TYPE", TestType.PERFORMANCE.name()));
+        log.info("Test Type: " + TEST_TYPE);
+        ENV = TEST_TYPE.getEnvironmentSupplier().get();
         DEBUG =
             Boolean.parseBoolean(getProperty("DEBUG", "false"));
         ENVIRONMENT = getProperty("ENVIRONMENT", TEST_TYPE.name());
+
 
         DB_URL = getProperty("DB_URL", "jdbc:postgresql://localhost:5432/juror");
         DB_USERNAME = getProperty("DB_USERNAME", "system");
@@ -49,7 +57,7 @@ public class Config {
         }
         if (hasProperty("REQUESTS_PER_HOUR_PER_USER")) {
             REQUESTS_PER_SECOND_PER_USER =
-                Double.parseDouble(getProperty("REQUESTS_PER_HOUR_PER_USER","3600")) / 3600.0;
+                Double.parseDouble(getProperty("REQUESTS_PER_HOUR_PER_USER", "3600")) / 3600.0;
         } else {
             REQUESTS_PER_SECOND_PER_USER = Double.parseDouble(getProperty("REQUESTS_PER_SECOND_PER_USER", "1"));
         }
@@ -68,7 +76,6 @@ public class Config {
         }
         return Optional.ofNullable(System.getenv(name)).orElse(defaultValue);
     }
-
 
     @SneakyThrows
     public static String asString() {
