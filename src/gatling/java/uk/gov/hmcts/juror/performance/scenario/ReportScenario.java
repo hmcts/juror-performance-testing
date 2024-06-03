@@ -1,7 +1,6 @@
 package uk.gov.hmcts.juror.performance.scenario;
 
 import io.gatling.javaapi.core.ChainBuilder;
-import io.gatling.javaapi.core.exec.Executable;
 import uk.gov.hmcts.juror.performance.Util;
 
 import java.time.Duration;
@@ -97,7 +96,7 @@ public class ReportScenario {
             .on(
                 exec(
                     http("POST - Reports - Statistics - Monthly Utilisation - Prepare")
-                        .post("/reporting/daily-utilisation/report")
+                        .post("/reporting/monthly-utilisation/prepare")
                         .headers(Util.COMMON_HEADERS)
                         .formParam("selectMonth", Util.getMonthStart())
                         .formParam("_csrf", "#{csrf}")
@@ -106,7 +105,7 @@ public class ReportScenario {
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
                     .exec(
                         http("GET - Reports - Statistics - Monthly Utilisation - Prepare - Final")
-                            .post("/reporting/prepare-monthly-utilisation/report/" + Util.getMonthStart())
+                            .get("/reporting/prepare-monthly-utilisation/report/" + Util.getMonthStart())
                             .headers(Util.COMMON_HEADERS)
                             .check(Util.validatePageIdentifier(
                                 "Reports - Monthly wastage and utilisation report"))
