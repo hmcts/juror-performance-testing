@@ -68,6 +68,10 @@ public class Util {
         return css("meta[name='pageIdentifier']", "content").is(pageIdentifier);
     }
 
+    public static CheckBuilder savePageIdentifier() {
+        return css("meta[name='pageIdentifier']", "content").saveAs("pageIdentifier");
+    }
+
     public static CheckBuilder.Final validateHeading(String headingValue) {
         return css("h1.govuk-heading-l").is(headingValue);
     }

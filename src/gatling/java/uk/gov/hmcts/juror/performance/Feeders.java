@@ -127,11 +127,9 @@ public class Feeders {
         OWNER_LIST.forEach(owner -> tmpUserList.put(owner,
             new LoopFromCollectionGeneratorImpl<>(
                 jdbcFeederCached(
-                    "select username, owner from juror_mod.users u where "
-                        + "u.username in (select uc.username from juror_mod.user_courts uc where uc.username = u"
-                        + ".username"
-                        + " and uc.loc_code = '" + owner + "')"
-                        + " and u.user_type <> 'ADMINISTRATOR'")
+                    "select uc.username as username, uc.loc_code as owner from juror_mod.users u "
+                        + "join juror_mod.user_courts uc on uc.username = u.username "
+                        + "where uc.loc_code = '" + owner + "'and u.user_type <> 'ADMINISTRATOR'")
                     .readRecords()
                     .stream()
                     .map(stringObjectMap -> String.valueOf(stringObjectMap.get("username")))
@@ -156,7 +154,6 @@ public class Feeders {
 
         OWNER_FEEDER_BUREAU = listFeeder("owner", OWNER_LIST.stream().filter(
             string -> string.equals("400")).toList()).random();
-        ;
 
         JUROR_NUMBER_REPLY_TYPE_BUREAU_FEEDER = new FeederGenerator(
             jdbcFeeder(
