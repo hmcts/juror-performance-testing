@@ -1,6 +1,7 @@
 package uk.gov.hmcts.juror.performance.scenario;
 
 import io.gatling.javaapi.core.ChainBuilder;
+import io.gatling.javaapi.core.exec.Executable;
 import uk.gov.hmcts.juror.performance.Util;
 
 import java.time.Duration;
@@ -81,6 +82,51 @@ public class ReportScenario {
             postDailyUtilisation(from, to),
             viewDailyUtilisationReport(from, to)
         );
+    }
+
+    public static ChainBuilder prepareMonthlyUtilisation() {
+        return exec(
+            viewMonthlyUtilisationPrepare(),
+            postMonthlyUtilisationPrepare()
+        );
+    }
+
+    private static ChainBuilder postMonthlyUtilisationPrepare() {
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - View Reports - Statistics - Monthly "
+                + "Utilisation - Prepare")
+            .on(
+                exec(
+                    http("POST - Reports - Statistics - Monthly Utilisation - Prepare")
+                        .post("/reporting/daily-utilisation/report")
+                        .headers(Util.COMMON_HEADERS)
+                        .formParam("selectMonth", Util.getMonthStart())
+                        .formParam("_csrf", "#{csrf}")
+                        .check(Util.validatePageIdentifier(
+                            "Reports - Prepare monthly utilisation report - Confirm preparation"))
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
+                    .exec(
+                        http("GET - Reports - Statistics - Monthly Utilisation - Prepare - Final")
+                            .post("/reporting/prepare-monthly-utilisation/report/" + Util.getMonthStart())
+                            .headers(Util.COMMON_HEADERS)
+                            .check(Util.validatePageIdentifier(
+                                "Reports - Monthly wastage and utilisation report"))
+                    ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
+            );
+    }
+
+    private static ChainBuilder viewMonthlyUtilisationPrepare() {
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - View Reports - Statistics - Monthly "
+                + "Utilisation - Prepare")
+            .on(
+                exec(
+                    http("GET - Reports - Statistics - Prepare Monthly Utilisation")
+                        .get("/reporting/monthly-utilisation/prepare")
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.saveCsrf())
+                        .check(Util.validatePageIdentifier(
+                            "Reports - Prepare monthly utilisation report - Select month"))
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
+            );
     }
 
     private static ChainBuilder viewDailyUtilisationReport(LocalDate from, LocalDate to) {

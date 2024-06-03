@@ -44,8 +44,8 @@ public class UtilizationSimulation {
                         pace(Duration.ofSeconds(secondsPerTransaction))
                             .exec(
                                 ReportScenario.viewAllReports(),
-                                ReportScenario.viewStatistics()
-//                                , ReportScenario.viewMonthlyUtilisation()
+                                ReportScenario.viewStatistics(),
+                                ReportScenario.prepareMonthlyUtilisation()
                             )
                     )
             );

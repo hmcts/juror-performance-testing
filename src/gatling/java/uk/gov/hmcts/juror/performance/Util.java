@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 import static io.gatling.javaapi.core.CoreDsl.bodyString;
 import static io.gatling.javaapi.core.CoreDsl.css;
@@ -134,6 +135,11 @@ public class Util {
 
     public static CustomGroup group(String name) {
         return new CustomGroup(name);
+    }
+
+    public static String getMonthStart() {
+        LocalDate date = LocalDate.now().withDayOfMonth(1);
+        return DateTimeFormatter.ISO_DATE.format(date);
     }
 
     @AllArgsConstructor
