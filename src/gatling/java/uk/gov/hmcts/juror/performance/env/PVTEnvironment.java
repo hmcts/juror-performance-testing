@@ -17,6 +17,7 @@ public class PVTEnvironment implements Environment {
     private final int rampTimeSeconds = 300;
     private final List<Simulations> simulationsToRun = List.of(
             Simulations.UTILIZATION_MONTHLY
+
         //        Simulations.values()
         );
 
