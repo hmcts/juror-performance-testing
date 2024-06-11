@@ -5,6 +5,7 @@ import lombok.Getter;
 import uk.gov.hmcts.juror.performance.simulation.Simulations;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,9 +16,12 @@ import static io.gatling.javaapi.core.CoreDsl.rampConcurrentUsers;
 public class PVTEnvironment implements Environment {
     private final int totalTestTimeSeconds = 3600;
     private final int rampTimeSeconds = 300;
-    private final List<Simulations> simulationsToRun = List.of(
-            Simulations.values()
-        );
+    private final List<Simulations> simulationsToRun =
+        Arrays.stream(Simulations.values())
+            .filter(simulation ->
+                simulation != Simulations.UTILIZATION_DAILY
+                    && simulation != Simulations.UTILIZATION_MONTHLY
+            ).toList();
 
     @Override
     public Duration getMaxDuration() {
