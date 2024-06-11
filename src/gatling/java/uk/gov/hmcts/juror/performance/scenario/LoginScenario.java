@@ -49,10 +49,10 @@ public final class LoginScenario {
     }
 
     public static ChainBuilder postLogin(String scenarioId, String expectedEndPage) {
-        return Util.group(scenarioId + GROUP_NAME + " - POST - Login (Court)")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - Login")
             .on(exec(Feeders::getUser)
                 .exec(
-                    http("POST - Login (Court)")
+                    http("POST - Login")
                         .post(LOGIN_URL_POST)
                         .headers(Util.COMMON_HEADERS)
                         .formParam("email", "#{username}@justice.gov.uk")
@@ -63,7 +63,7 @@ public final class LoginScenario {
                 .exec(Util::printBody)
                 .doIfEqualsOrElse("#{pageIdentifier}", SELECT_COURT_PAGE_IDENTIFIER)
                 .then(exec(
-                    http("POST - Login (Court) - Court Selection")
+                    http("POST - Login - Court Selection")
                         .post(COURT_SELECT_URL)
                         .headers(Util.COMMON_HEADERS)
                         .formParam("email", "#{username}@justice.gov.uk")

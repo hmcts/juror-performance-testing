@@ -13,10 +13,10 @@ import static io.gatling.javaapi.core.CoreDsl.constantConcurrentUsers;
 @Getter
 public class LocalEnvironment implements Environment {
     private final int totalTestTimeSeconds = 60;
-    private final int userOverride = 1;
+    private final int userOverride = 3;
     private final int paceOverride = 30;
     private final List<Simulations> simulationsToRun = List.of(
-        Simulations.UTILIZATION_MONTHLY
+        Simulations.SUMMONS_REPLY_SEARCH
     );
 
     @Override

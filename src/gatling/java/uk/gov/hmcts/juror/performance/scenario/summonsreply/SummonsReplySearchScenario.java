@@ -72,10 +72,9 @@ public class SummonsReplySearchScenario {
                         .check(status().is(200))
                         .check(Util.validatePageIdentifier("Search"))
                         //Checks the no results found box is hidden
-                        .check(css("#noResultsMsg.u-hide").exists())
+                        .check(css("#noResultsMsg").notExists())
                         //Checks I can see results
                         .check(css("#selectedSendToForm>#searchResultTable>tbody>tr").count().gte(1))
-                        .check(css("#searchSummaryMsg.u-hide").notExists())
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
