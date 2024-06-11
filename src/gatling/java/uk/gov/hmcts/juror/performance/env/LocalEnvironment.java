@@ -16,7 +16,7 @@ public class LocalEnvironment implements Environment {
     private final int userOverride = 1;
     private final int paceOverride = 30;
     private final List<Simulations> simulationsToRun = List.of(
-        Simulations.JUROR_RECORD_SEARCH
+        Simulations.UTILIZATION_MONTHLY
     );
 
     @Override
