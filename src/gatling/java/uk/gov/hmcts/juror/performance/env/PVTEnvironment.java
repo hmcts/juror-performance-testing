@@ -21,7 +21,8 @@ public class PVTEnvironment implements Environment {
             .filter(simulation ->
                 simulation != Simulations.UTILIZATION_DAILY
                     && simulation != Simulations.UTILIZATION_MONTHLY
-            ).toList();
+            )
+            .toList();
 
     @Override
     public Duration getMaxDuration() {
