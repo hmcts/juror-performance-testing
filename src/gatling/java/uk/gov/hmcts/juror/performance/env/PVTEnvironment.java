@@ -25,6 +25,7 @@ public class PVTEnvironment implements Environment {
         return Duration.ofSeconds(totalTestTimeSeconds + (rampTimeSeconds));
     }
 
+
     @Override
     public List<ClosedInjectionStep> simulationProfileClosed(int users, Duration delayStart, long rampMultiplier) {
         return List.of(
