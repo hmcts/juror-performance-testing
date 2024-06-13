@@ -18,10 +18,6 @@ public class PVTEnvironment implements Environment {
     private final int rampTimeSeconds = 300;
     private final List<Simulations> simulationsToRun =
         Arrays.stream(Simulations.values())
-            .filter(simulation ->
-                simulation != Simulations.UTILIZATION_DAILY
-                    && simulation != Simulations.UTILIZATION_MONTHLY
-            )
             .toList();
 
     @Override
