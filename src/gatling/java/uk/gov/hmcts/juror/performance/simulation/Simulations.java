@@ -63,13 +63,13 @@ public enum Simulations {
                     .toArray(new ClosedInjectionStep[0]))),
     UTILIZATION_DAILY(() ->
         //utilization report (90 courts @ 2 per court per month) (2 per hour per user - 20 users)
-        UtilizationSimulation.getDailyScenarioBuilderStatic(Config.ENV.getPaceInSeconds(3, TimeUnit.HOURS))
+        UtilizationSimulation.getDailyScenarioBuilderStatic(Config.ENV.getPaceInSeconds(5, TimeUnit.HOURS))
             .injectClosed(
                 Config.ENV.simulationProfileClosed(20, Duration.ofSeconds(100), 2L)
                     .toArray(new ClosedInjectionStep[0]))),
     UTILIZATION_MONTHLY(() ->
         //utilization report (90 courts @ 2 per court per month) (2 per hour per user - 20 users)
-        UtilizationSimulation.getMonthlyScenarioBuilderStatic(Config.ENV.getPaceInSeconds(3, TimeUnit.HOURS))
+        UtilizationSimulation.getMonthlyScenarioBuilderStatic(Config.ENV.getPaceInSeconds(5, TimeUnit.HOURS))
             .injectClosed(
                 Config.ENV.simulationProfileClosed(20, Duration.ofSeconds(130), 2L)
                     .toArray(new ClosedInjectionStep[0])));
