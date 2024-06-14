@@ -55,7 +55,6 @@ public enum Simulations {
             .injectClosed(
                 Config.ENV.simulationProfileClosed(2, Duration.ofSeconds(60))
                     .toArray(new ClosedInjectionStep[0]))),
-
     EXPENSES(() ->
         //Expenses -- 333 by 20 per hour (17 per hour per user) -- 12 Jurors Per
         ExpenseSimulation.getScenarioBuilderStatic(Config.ENV.getPaceInSeconds(17, TimeUnit.HOURS))
