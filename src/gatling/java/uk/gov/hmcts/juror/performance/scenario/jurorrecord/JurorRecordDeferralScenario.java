@@ -4,19 +4,14 @@ import io.gatling.javaapi.core.ChainBuilder;
 import uk.gov.hmcts.juror.performance.Feeders;
 import uk.gov.hmcts.juror.performance.Util;
 import uk.gov.hmcts.juror.performance.scenario.PrintLetterScenario;
-import uk.gov.hmcts.juror.support.generation.generators.code.Generator;
-import uk.gov.hmcts.juror.support.generation.generators.value.RandomFromCollectionGeneratorImpl;
 
 import java.time.Duration;
+import java.time.LocalDate;
 
-import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.feed;
-import static io.gatling.javaapi.core.CoreDsl.group;
 import static io.gatling.javaapi.core.CoreDsl.substring;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
-import static uk.gov.hmcts.juror.performance.Util.printBody;
-import static uk.gov.hmcts.juror.performance.Util.saveBody;
 
 public class JurorRecordDeferralScenario {
     private static final String GROUP_NAME = JurorRecordUpdateScenario.GROUP_NAME + " - deferral";
@@ -30,15 +25,22 @@ public class JurorRecordDeferralScenario {
     public static ChainBuilder postDeferalGrant(String scenarioId) {
         return Util.group(scenarioId + GROUP_NAME + " - POST - GRANT")
             .on(
-                feed(Feeders.DEFERAL_CODE_FEEDER).exec(
+                feed(Feeders.DEFERAL_CODE_FEEDER)
+                    .exec(session -> {
+                        LocalDate localDate = Util.createDate();
+                        return session
+                            .set("deferralDate", Util.STANDARD_DATE_FORMATTER.format(localDate))
+                            .set("hearingDate", Util.STANDARD_DATE_FORMATTER.format(localDate.minusDays(1)));
+                    })
+                    .exec(
                         http("POST - Juror Record - Update Record - deferral - GRANT")
                             .post(BASE_URL)
                             .headers(Util.COMMON_HEADERS)
                             .formParam("deferralReason", "#{exc_code}")
                             .formParam("deferralDecision", "GRANT")
                             .formParam("deferralDateSelection", "otherDate")
-                            .formParam("deferralDate", Util.createDateString(Util.STANDARD_DATE_FORMATTER))
-                            .formParam("hearingDate", "")
+                            .formParam("deferralDate","#{deferralDate}")
+                            .formParam("hearingDate", "#{hearingDate}")
                             .formParam("jurorNumber", "#{juror_number}")
                             .formParam("_csrf", "#{csrf}")
                             .formParam("version", "")

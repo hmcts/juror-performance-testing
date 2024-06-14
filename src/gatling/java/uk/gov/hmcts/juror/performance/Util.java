@@ -88,6 +88,10 @@ public class Util {
         return LOCAL_DATE_GENERATOR.generateValue().format(dateTimeFormatter);
     }
 
+    public static LocalDate createDate(){
+        return LOCAL_DATE_GENERATOR.generateValue();
+    }
+
     public static String createDateStringMonday(DateTimeFormatter dateTimeFormatter) {
         LocalDate date = LOCAL_DATE_GENERATOR.generateValue();
         if (date.getDayOfWeek() != DayOfWeek.MONDAY) {

@@ -60,7 +60,6 @@ public final class LoginScenario {
                         .check(Util.savePageIdentifier())
                 )
                 .pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
-                .exec(Util::printBody)
                 .doIfEqualsOrElse("#{pageIdentifier}", SELECT_COURT_PAGE_IDENTIFIER)
                 .then(exec(
                     http("POST - Login - Court Selection")
