@@ -20,19 +20,19 @@ public class JurorExpenseScenario {
 
 
     public static ChainBuilder viewTotalInDraftExpenses() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft")
             .on(
                 exec(
                     http("GET - Juror Record - Expenses - draft")
                         .get(BASE_URL + "/draft")
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("juror-management - unpaid attendance - expense record"))
+                        .check(Util.validatePageIdentifier("Juror management - Unpaid attendance - Expense record"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
     public static ChainBuilder getAddDraftExpense() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft - day")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - GET - Expenses - Draft - day")
             .on(
                 exec(
                     http("GET - Juror Record - Expenses - draft - day")
@@ -41,13 +41,13 @@ public class JurorExpenseScenario {
                         .queryParam("page", "1")
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.saveCsrf())
-                        .check(Util.validatePageIdentifier("juror-management - unpaid attendance - daily expenses"))
+                        .check(Util.validatePageIdentifier("Juror management - Unpaid attendance - Daily expenses"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
     public static ChainBuilder postAddDraftExpenseSaveAndBack() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Expenses - Draft - day")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Expenses - Draft - day")
             .on(
                 exec(
                     http("POST - Juror Record - Expenses - draft - day")
@@ -79,7 +79,7 @@ public class JurorExpenseScenario {
                         .formParam("total", "")
                         .formParam("_csrf", "#{csrf}")
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("juror-management - unpaid attendance - expense record"))
+                        .check(Util.validatePageIdentifier("Juror management - Unpaid attendance - Expense record"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }

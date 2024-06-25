@@ -31,20 +31,14 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
   env.BASE_URL =  params.URL
   env.DB_URL = "jdbc:postgresql://juror-api-${params.ENVIRONMENT}.postgres.database.azure.com:5432/juror"
-  env.TEST_TYPE = "PIPELINE"
-  env.ENVIRONMENT = "PIPELINE"
+  env.TEST_TYPE = "PERFORMANCE"
+  env.ENVIRONMENT = "PERFORMANCE"
   env.DEBUG = "false"
-  env.RANK_UP_TIME_SECONDS = "5" 
-  env.RANK_DOWN_TIME_SECONDS = "5"
-  env.TEST_DURATION_SECONDS = "90"
-  env.PIPELINE_USERS_PER_SECOND = "1"
-  env.USERS_PER_SECOND = "2"
-  env.REQUESTS_PER_SECOND_PER_USER = "1"
 
   loadVaultSecrets(secrets)
-  enablePerformanceTest()
+  enablePerformanceTest(90)
 
-  after('performanceTest') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  afterFailure('test') {
+    publishPerformanceReports()
   }
 }

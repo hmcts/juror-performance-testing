@@ -34,7 +34,7 @@ public class DeferralSimulation extends AbstractJurorSimulation {
 
     public static ScenarioBuilder getScenarioBuilderStatic(int secondsPerTransaction) {
 
-        ChainBuilder responded = group("Juror Record - RESPONDED").on(
+        ChainBuilder responded = Util.group("Juror Record - RESPONDED").on(
             feed(Feeders.JUROR_NUMBER_FEEDER_BY_STATUS_MAP.get("2")).exec(
                 LoginScenario.login(),
                 JurorRecordSearchScenario.jurorRecordSearch(),
@@ -48,7 +48,7 @@ public class DeferralSimulation extends AbstractJurorSimulation {
                 ).orElse(exitHere())
             )
         );
-        ChainBuilder summoned = group("Juror Record - SUMMONED").on(
+        ChainBuilder summoned = Util.group("Juror Record - SUMMONED").on(
             feed(Feeders.JUROR_NUMBER_FEEDER_BY_STATUS_MAP.get("1")).exec(
                 LoginScenario.login(),
                 JurorRecordSearchScenario.jurorRecordSearch(),

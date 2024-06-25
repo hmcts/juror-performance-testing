@@ -19,26 +19,26 @@ public class YourWorkScenario {
 
     public static ChainBuilder getToDo() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - GET - To do")
+        return Util.group(scenarioId + GROUP_NAME + " - GET - To do")
             .on(
                 exec(
                     http("GET - Your work - to do")
                         .get(TODO_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("your work - to do"))
+                        .check(Util.validatePageIdentifier("Your work - To do"))
                 )
             ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS));
     }
 
     public static ChainBuilder getAwaitingInformation() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - GET - awaiting information")
+        return Util.group(scenarioId + GROUP_NAME + " - GET - awaiting information")
             .on(
                 exec(
                     http("GET - Your work - awaiting information")
                         .get(AWAITING_INFORMATION_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("your work - awaiting information"))
+                        .check(Util.validatePageIdentifier("Your work - Awaiting information"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
 
             );
@@ -46,13 +46,13 @@ public class YourWorkScenario {
 
     public static ChainBuilder getCompleted() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - GET - completed")
+        return Util.group(scenarioId + GROUP_NAME + " - GET - completed")
             .on(
                 exec(
                     http("GET - Your work - completed")
                         .get(COMPLETED_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("your work - completed"))
+                        .check(Util.validatePageIdentifier("Your work - Completed"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }

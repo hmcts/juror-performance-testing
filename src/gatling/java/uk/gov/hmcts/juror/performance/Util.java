@@ -1,8 +1,11 @@
 package uk.gov.hmcts.juror.performance;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import io.gatling.javaapi.core.ChainBuilder;
 import io.gatling.javaapi.core.CheckBuilder;
 import io.gatling.javaapi.core.Session;
+import io.gatling.javaapi.core.exec.Executable;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.juror.support.generation.generators.value.LocalDateGeneratorImpl;
 
@@ -11,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 import static io.gatling.javaapi.core.CoreDsl.bodyString;
 import static io.gatling.javaapi.core.CoreDsl.css;
@@ -29,6 +33,7 @@ public class Util {
         LocalDate.now().plusWeeks(10),//Must be after jurorPool ret_date (check data generation library)
         LocalDate.now().plusWeeks(25)
     );
+
 
     static {
         COUNTER = new AtomicInteger(0);
@@ -65,6 +70,10 @@ public class Util {
         return css("meta[name='pageIdentifier']", "content").is(pageIdentifier);
     }
 
+    public static CheckBuilder savePageIdentifier() {
+        return css("meta[name='pageIdentifier']", "content").saveAs("pageIdentifier");
+    }
+
     public static CheckBuilder.Final validateHeading(String headingValue) {
         return css("h1.govuk-heading-l").is(headingValue);
     }
@@ -80,6 +89,10 @@ public class Util {
         return LOCAL_DATE_GENERATOR.generateValue().format(dateTimeFormatter);
     }
 
+    public static LocalDate createDate(){
+        return LOCAL_DATE_GENERATOR.generateValue();
+    }
+
     public static String createDateStringMonday(DateTimeFormatter dateTimeFormatter) {
         LocalDate date = LOCAL_DATE_GENERATOR.generateValue();
         if (date.getDayOfWeek() != DayOfWeek.MONDAY) {
@@ -92,9 +105,6 @@ public class Util {
 
     public static ChainBuilder printSessionVariables() {
         return exec(session -> {
-            if (!Config.DEBUG) {
-                return session;
-            }
             try {
                 count++;
                 log.info(count + " Session variables: " + session);
@@ -125,6 +135,29 @@ public class Util {
         return LocalDate.parse(postponeNewServiceStart,
                 DateTimeFormatter.ofPattern(fromPattern))
             .format(DateTimeFormatter.ofPattern(toPattern));
+    }
+
+
+    public static CustomGroup group(String name) {
+        return new CustomGroup(name);
+    }
+
+    public static String getMonthStart() {
+        LocalDate date = LocalDate.now().withDayOfMonth(1);
+        return DateTimeFormatter.ISO_DATE.format(date);
+    }
+
+    @AllArgsConstructor
+    public static class CustomGroup {
+
+        private final String name;
+
+        public ChainBuilder on(@NonNull Executable executable, @NonNull Executable... executables) {
+            if (Config.INCLUDE_GROUPS) {
+                return Util.group(name).on(executable, executables);
+            }
+            return exec(executable, executables);
+        }
     }
 
 

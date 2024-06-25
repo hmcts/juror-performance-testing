@@ -67,7 +67,7 @@ public class PostponeSimulation extends AbstractJurorSimulation {
 
     @Override
     protected ScenarioBuilder getScenario() {
-        ChainBuilder responded = group("Juror Record - RESPONDED").on(
+        ChainBuilder responded = Util.group("Juror Record - RESPONDED").on(
             feed(Feeders.JUROR_NUMBER_FEEDER_BY_STATUS_MAP.get("2")).exec(
                 LoginScenario.login(),
                 JurorRecordSearchScenario.jurorRecordSearch(),

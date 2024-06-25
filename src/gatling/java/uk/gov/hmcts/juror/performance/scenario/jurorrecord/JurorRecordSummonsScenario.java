@@ -10,6 +10,7 @@ import static io.gatling.javaapi.core.CoreDsl.doSwitchOrElse;
 import static io.gatling.javaapi.core.CoreDsl.exec;
 import static io.gatling.javaapi.core.CoreDsl.exitHere;
 import static io.gatling.javaapi.core.CoreDsl.group;
+import static io.gatling.javaapi.core.CoreDsl.onCase;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static uk.gov.hmcts.juror.performance.Util.DEFAULT_THINK_TIME_MS;
 
@@ -24,7 +25,7 @@ public final class JurorRecordSummonsScenario {
     }
 
     public static ChainBuilder getSummonsReplyPaper() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " GET - Paper")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " GET - Paper")
             .on(exec(
                     http("GET - Summons Reply - Paper")
                         .get(BASE_URL_PAPER)
@@ -35,7 +36,7 @@ public final class JurorRecordSummonsScenario {
     }
 
     public static ChainBuilder getSummonsReplyDigital() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " GET - Digital")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " GET - Digital")
             .on(exec(
                     http("GET - Summons Reply - Digital")
                         .get(BASE_URL_DIGITAL)
@@ -48,8 +49,8 @@ public final class JurorRecordSummonsScenario {
     public static ChainBuilder getSummonsReply() {
         return
             doSwitchOrElse("#{reply_type}").on(
-                Choice.withKey("paper", getSummonsReplyPaper()),
-                Choice.withKey("digital", getSummonsReplyDigital())
+                onCase("paper").then(getSummonsReplyPaper()),
+                onCase("digital").then(getSummonsReplyDigital())
             ).orElse(exitHere());
     }
 }

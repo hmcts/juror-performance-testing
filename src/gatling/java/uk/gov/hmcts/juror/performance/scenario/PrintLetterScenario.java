@@ -20,37 +20,37 @@ public class PrintLetterScenario {
                                                String letterTypeUrl,
                                                String overviewSubStringCheck,
                                                String pageIdentifer
-                                               ) {
-        return  exec(session -> session.set("printLetters", Feeders.YES_NO_GEN.generate()))
-            .doIfOrElse(session -> {
-                String printLetters = session.getString("printLetters");
-                assert printLetters != null;
-                return printLetters.equals("no");
-            })
-            .then(http(titlePrefix + " - Print letters - No")
-                .post("/juror-management/juror/#{juror_number}/update/"+letterTypeUrl+"/letter")
-                .headers(Util.COMMON_HEADERS)
-                .formParam("printLetters", "no")
-                .formParam("letterType", letterType)
-                .formParam("_csrf", "#{csrf}")
-                //Post code does not auto redirect this is done via JS so page should be the same
-                .check(Util.validatePageIdentifier("juror record - overview"))
-                .check(substring(overviewSubStringCheck)))
-            .orElse(http(titlePrefix + " - Print letters - Yes")
-                    .post("/juror-management/juror/#{juror_number}/update/"+letterTypeUrl+"/letter")
+    ) {
+        return exec(session -> session.set("printLetters", Feeders.YES_NO_GEN.generate()))
+                .doIfOrElse(session -> {
+                    String printLetters = session.getString("printLetters");
+                    assert printLetters != null;
+                    return printLetters.equals("no");
+                })
+                .then(Util.group(Util.getNewScenarioId() + " - Print Letter").on(http(titlePrefix + " - Print letters - No")
+                    .post("/juror-management/juror/#{juror_number}/update/" + letterTypeUrl + "/letter")
                     .headers(Util.COMMON_HEADERS)
-                    .formParam("printLetters", "yes")
+                    .formParam("printLetters", "no")
                     .formParam("letterType", letterType)
                     .formParam("_csrf", "#{csrf}")
                     //Post code does not auto redirect this is done via JS so page should be the same
-                    .check(Util.validatePageIdentifier(pageIdentifer + " - redirect to print flow")),
-                //Get overview page and check for deferral granted
-                http("GET - juror record overview")
-                    .get("/juror-management/record/#{juror_number}/overview")
-                    .headers(Util.COMMON_HEADERS)
-                    .check(Util.validatePageIdentifier("juror record - overview"))
-                    .check(substring(overviewSubStringCheck))
-            ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS));
+                    .check(Util.validatePageIdentifier("Juror record - Overview"))
+                    .check(substring(overviewSubStringCheck))))
+                .orElse(Util.group(Util.getNewScenarioId() + " - Print Letter").on(http(titlePrefix + " - Print letters - Yes")
+                        .post("/juror-management/juror/#{juror_number}/update/" + letterTypeUrl + "/letter")
+                        .headers(Util.COMMON_HEADERS)
+                        .formParam("printLetters", "yes")
+                        .formParam("letterType", letterType)
+                        .formParam("_csrf", "#{csrf}")
+                        //Post code does not auto redirect this is done via JS so page should be the same
+                        .check(Util.validatePageIdentifier(pageIdentifer + " - Redirect to print flow")),
+                    //Get overview page and check for deferral granted
+                    http("GET - juror record overview")
+                        .get("/juror-management/record/#{juror_number}/overview")
+                        .headers(Util.COMMON_HEADERS)
+                        .check(Util.validatePageIdentifier("Juror record - Overview"))
+                        .check(substring(overviewSubStringCheck)))
+                ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS));
     }
 
 }

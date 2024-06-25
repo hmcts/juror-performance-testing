@@ -19,13 +19,13 @@ public class SummonsReplySearchScenario {
 
     public static ChainBuilder getSearch() {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - POST - search")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - search")
             .on(
                 exec(
                     http("GET - Search")
                         .get(SEARCH_URL)
                         .headers(Util.COMMON_HEADERS)
-                        .check(Util.validatePageIdentifier("search"))
+                        .check(Util.validatePageIdentifier("Search"))
                         .check(Util.saveCsrf())
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
@@ -60,7 +60,7 @@ public class SummonsReplySearchScenario {
 
     public static ChainBuilder postSearch(String suffix) {
         String scenarioId = Util.getNewScenarioId();
-        return group(scenarioId + GROUP_NAME + " - POST - search")
+        return Util.group(scenarioId + GROUP_NAME + " - POST - search")
             .on(exec(
                     http("POST - Search - " + suffix)
                         .post(SEARCH_URL)
@@ -70,12 +70,11 @@ public class SummonsReplySearchScenario {
                         .formParam("pool_number", "#{search_pool_number}")
                         .formParam("_csrf", "#{csrf}")
                         .check(status().is(200))
-                        .check(Util.validatePageIdentifier("search"))
+                        .check(Util.validatePageIdentifier("Search"))
                         //Checks the no results found box is hidden
-                        .check(css("#noResultsMsg.u-hide").exists())
+                        .check(css("#noResultsMsg").notExists())
                         //Checks I can see results
                         .check(css("#selectedSendToForm>#searchResultTable>tbody>tr").count().gte(1))
-                        .check(css("#searchSummaryMsg.u-hide").notExists())
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }

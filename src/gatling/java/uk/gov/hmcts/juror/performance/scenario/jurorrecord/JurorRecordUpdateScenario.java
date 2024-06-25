@@ -24,7 +24,7 @@ public final class JurorRecordUpdateScenario {
     }
 
     public static ChainBuilder postUpdateRecordDeferral() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - deferral")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - deferral")
             .on(
                 exec(
                     http("POST - Juror Record - Update Record - deferral")
@@ -33,13 +33,13 @@ public final class JurorRecordUpdateScenario {
                         .formParam("jurorRecordUpdate", "deferral")
                         .formParam("jurorDeceased", "")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("process - deferral"))
+                        .check(Util.validatePageIdentifier("Process - Deferral"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
     public static ChainBuilder postUpdateRecordExcusal() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - excusal")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - excusal")
             .on(
                 exec(
                     http("POST - Juror Record - Update Record - excusal")
@@ -48,14 +48,14 @@ public final class JurorRecordUpdateScenario {
                         .formParam("jurorRecordUpdate", "excusal")
                         .formParam("jurorDeceased", "")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("process - what to do"))
+                        .check(Util.validatePageIdentifier("Process - what to do"))
                         .check(Util.validateHeading("Grant or refuse an excusal"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
     }
 
     public static ChainBuilder postUpdateRecordPostpone() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - postpone")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - postpone")
             .on(
                 exec(
                     http("POST - Juror Record - Update Record - postpone")
@@ -64,7 +64,7 @@ public final class JurorRecordUpdateScenario {
                         .formParam("jurorRecordUpdate", "postpone")
                         .formParam("jurorDeceased", "")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("Update Juror Record - Postpone"))
+                        .check(Util.validatePageIdentifier("Update juror record - Postpone"))
                         .check(css("#postponeTo", "data-mindate").exists().saveAs("postponeNewServiceStartMinDateStr"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );

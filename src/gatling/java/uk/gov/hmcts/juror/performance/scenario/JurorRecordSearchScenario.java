@@ -19,15 +19,15 @@ public final class JurorRecordSearchScenario {
     }
 
     public static ChainBuilder jurorRecordSearch() {
-        return group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Juror Number Search")
+        return Util.group(Util.getNewScenarioId() + GROUP_NAME + " - POST - Juror Number Search")
             .on(exec(
                     http("POST - Juror Number Search")
                         .post("/juror-record/search")
                         .headers(Util.COMMON_HEADERS)
                         .check(Util.saveCsrf())
-                        .formParam("super-nav-search", "#{juror_number}")
+                        .formParam("globalSearch", "#{juror_number}")
                         .formParam("_csrf", "#{csrf}")
-                        .check(Util.validatePageIdentifier("juror record - overview"))
+                        .check(Util.validatePageIdentifier("Juror record - Overview"))
                         .check(css("#jurorNumber").isEL("#{juror_number}"))
                 ).pause(Duration.ofMillis(DEFAULT_THINK_TIME_MS))
             );
