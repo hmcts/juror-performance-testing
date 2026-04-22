@@ -21,8 +21,8 @@ repositories {
 
 dependencies {
     gatling group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
-    gatling 'org.projectlombok:lombok:1.18.34'
-    gatlingAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+    gatling 'org.projectlombok:lombok:1.18.46'
+    gatlingAnnotationProcessor 'org.projectlombok:lombok:1.18.46'
     gatling 'com.github.hmcts:juror-generation-support-library:1.5.4'
 
     gatling group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.6'
